@@ -66,6 +66,9 @@ jobs:
         file: config/Dockerfile
         load: true
         tags: ${{ env.IMAGE_NAME }}
+    
+    - run: |
+        docker image list -a
 
     - name: Test
       run: |
@@ -79,19 +82,3 @@ jobs:
         file: config/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}
-      
-#     # 对应第6步，登录服务器
-#     - name: Server Start
-#       uses: appleboy/ssh-action@master
-#       with: 
-#         host: ${{ secrets.REMOTE_HOST }}
-#         username: ${{ secrets.REMOTE_USERNAME }}
-#         key: ${{ secrets.PRIVATE_KEY }}
-#         # 第1、2行脚本对应第7步，服务器登陆阿里云 docker 仓库，下载目标 docker 镜像
-#         # 第3、4行脚本对应第8步，删除原有后端服务，使用新镜像部署新的后端服务
-#         run: |
-#           echo ${{ secrets.ALI_DOCKER_PASSWORD }} | docker login --username ${{ secrets.ALI_DOCKER_USERNAME }} --password-stdin ${{ secrets.ALI_DOCKER_REGISTRY }}
-#           docker pull ${{ env.IMAGE_TAG }}
-#           docker container stop ${{ env.IMAGE_NAME}} || echo "停止容器[${{ env.IMAGE_NAME}}]异常"
-#           docker container rm ${{ env.IMAGE_NAME}} || echo "删除容器[${{ env.IMAGE_NAME}}]异常"
-#           docker container run -p ${{ env.DOCKER_PORT }}:3000 -d --name ${{ env.IMAGE_NAME}} -it ${{ env.IMAGE_TAG }
