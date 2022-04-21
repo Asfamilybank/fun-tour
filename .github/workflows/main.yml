@@ -48,57 +48,57 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        cache: 'yarn'
     
     # 对应第3步，执行打包命令
     - name: 'Build Front'
       run: |
-        npm i
-        npm run build
+        yarn
+        yarn build
  
     # 第4步的准备工作，登陆OSS
-    - name: Set up OSS
-      uses: manyuanrong/setup-ossutil@v2.0
-      with:
-        endpoint: ${{ env.OSS_END_POINT }}
-        access-key-id: ${{ secrets.OSS_ACCESS_KEY }}
-        access-key-secret: ${{ secrets.OSS_ACCESS_SECRET }}
-    # 对应第4步，上传前端资源到阿里云 OSS
-    - name: Upload to OSS
-      run: ossutil cp -r .next/static/ oss://${{ env.OSS_BUCKET }}/_next/static
+#     - name: Set up OSS
+#       uses: manyuanrong/setup-ossutil@v2.0
+#       with:
+#         endpoint: ${{ env.OSS_END_POINT }}
+#         access-key-id: ${{ secrets.OSS_ACCESS_KEY }}
+#         access-key-secret: ${{ secrets.OSS_ACCESS_SECRET }}
+#     # 对应第4步，上传前端资源到阿里云 OSS
+#     - name: Upload to OSS
+#       run: ossutil cp -r .next/static/ oss://${{ env.OSS_BUCKET }}/_next/static
       
-    # 第5步的准备工作，设置docker环境
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+#     # 第5步的准备工作，设置docker环境
+#     - name: Set up Docker Buildx
+#       uses: docker/setup-buildx-action@v1
     
-    # 第5步的准备工作，登陆阿里云docker仓库
-    - name: Login to Ali Docker
-      uses: docker/login-action@v1
-      with:
-        registry: ${{ secrets.ALI_DOCKER_REGISTRY }}
-        username: ${{ secrets.ALI_DOCKER_USERNAME }}
-        password: ${{ secrets.ALI_DOCKER_PASSWORD }}
+#     # 第5步的准备工作，登陆阿里云docker仓库
+#     - name: Login to Ali Docker
+#       uses: docker/login-action@v1
+#       with:
+#         registry: ${{ secrets.ALI_DOCKER_REGISTRY }}
+#         username: ${{ secrets.ALI_DOCKER_USERNAME }}
+#         password: ${{ secrets.ALI_DOCKER_PASSWORD }}
     
-    # 对应第5步，构建 docker 镜像，并上传到阿里云镜像服务
-    - name: Build and push Docker Image
-      uses: docker/build-push-action@v2
-      with:
-        context: ./
-        push: true
-        tags: ${{ env.IMAGE_TAG }}
+#     # 对应第5步，构建 docker 镜像，并上传到阿里云镜像服务
+#     - name: Build and push Docker Image
+#       uses: docker/build-push-action@v2
+#       with:
+#         context: ./
+#         push: true
+#         tags: ${{ env.IMAGE_TAG }}
       
-    # 对应第6步，登录服务器
-    - name: Server Start
-      uses: appleboy/ssh-action@master
-      with: 
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USERNAME }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        # 第1、2行脚本对应第7步，服务器登陆阿里云 docker 仓库，下载目标 docker 镜像
-        # 第3、4行脚本对应第8步，删除原有后端服务，使用新镜像部署新的后端服务
-        script: |
-          echo ${{ secrets.ALI_DOCKER_PASSWORD }} | docker login --username ${{ secrets.ALI_DOCKER_USERNAME }} --password-stdin ${{ secrets.ALI_DOCKER_REGISTRY }}
-          docker pull ${{ env.IMAGE_TAG }}
-          docker container stop ${{ env.IMAGE_NAME}} || echo "停止容器[${{ env.IMAGE_NAME}}]异常"
-          docker container rm ${{ env.IMAGE_NAME}} || echo "删除容器[${{ env.IMAGE_NAME}}]异常"
-          docker container run -p ${{ env.DOCKER_PORT }}:3000 -d --name ${{ env.IMAGE_NAME}} -it ${{ env.IMAGE_TAG }
+#     # 对应第6步，登录服务器
+#     - name: Server Start
+#       uses: appleboy/ssh-action@master
+#       with: 
+#         host: ${{ secrets.REMOTE_HOST }}
+#         username: ${{ secrets.REMOTE_USERNAME }}
+#         key: ${{ secrets.PRIVATE_KEY }}
+#         # 第1、2行脚本对应第7步，服务器登陆阿里云 docker 仓库，下载目标 docker 镜像
+#         # 第3、4行脚本对应第8步，删除原有后端服务，使用新镜像部署新的后端服务
+#         run: |
+#           echo ${{ secrets.ALI_DOCKER_PASSWORD }} | docker login --username ${{ secrets.ALI_DOCKER_USERNAME }} --password-stdin ${{ secrets.ALI_DOCKER_REGISTRY }}
+#           docker pull ${{ env.IMAGE_TAG }}
+#           docker container stop ${{ env.IMAGE_NAME}} || echo "停止容器[${{ env.IMAGE_NAME}}]异常"
+#           docker container rm ${{ env.IMAGE_NAME}} || echo "删除容器[${{ env.IMAGE_NAME}}]异常"
+#           docker container run -p ${{ env.DOCKER_PORT }}:3000 -d --name ${{ env.IMAGE_NAME}} -it ${{ env.IMAGE_TAG }
