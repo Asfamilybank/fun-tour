@@ -1,7 +1,5 @@
 {
   "trailingComma": "none",
   "semi": false,
-  "singleQuote": true,
-  "importOrder": ["^react", "^@", "^[a-zA-Z]", "^[./]"],
-  "importOrderSeparation": true
+  "singleQuote": true
 }
