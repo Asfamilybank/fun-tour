@@ -21,14 +21,12 @@ jobs:
     - name: Set env to production
       if: endsWith(github.ref, 'main')
       run: |
-        echo "DOCKER_PORT=3003" >> $GITHUB_ENV
         echo "IMAGE_TAG=prod_${{ github.sha }}" >> $GITHUB_ENV
     
     # 定义测试环境的环境变量，只在dev分支执行
     - name: Set env to development
       if: endsWith(github.ref, 'dev')
       run: |
-        echo "DOCKER_PORT=3004" >> $GITHUB_ENV
         echo "IMAGE_TAG=dev_${{ github.sha }}" >> $GITHUB_ENV
     
     # 对应第2步，拉取指定分支代码
