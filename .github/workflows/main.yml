@@ -6,10 +6,11 @@ on:
       - dev
     paths: 
       - src/**
+      - .github/**
       - package.json
 env:
   # 自定义的镜像基础名称
-  IMAGE_NAME: fun-TOUR
+  IMAGE_NAME: fun-tour
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,7 +20,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: yarn
-    - run: yarn test
+    - run: |
+      yarn
+      yarn test
     - uses: actions/upload-artifact@v3
       with:
         name: coverage-output
