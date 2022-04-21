@@ -45,13 +45,13 @@ jobs:
     
     # 第3步的准备工作，先配置好node环境
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: yarn
     
     # 对应第3步，执行打包命令
-    - name: 'Build Front'
+    - name: Build Front
       run: |
         yarn
         yarn build
