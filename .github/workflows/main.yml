@@ -25,7 +25,7 @@ jobs:
   #         name: coverage-output
   #         path: coverage
   build:
-    if: ${{ env.REF == 'dev' }} || ${{ env.REF == 'main' }} || ${{ env.EVENT == 'merge_requests' }}
+    if: env.REF == 'dev' || env.REF == 'main' || env.EVENT == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       matrix:
