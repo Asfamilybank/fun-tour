@@ -10,6 +10,8 @@ on:
       - package.json
 env:
   IMAGE_NAME: fun-tour
+  PROD_PORT: 8091
+  DEV_PORT: 8092
 jobs:
   test:
     if: false
@@ -56,11 +58,11 @@ jobs:
     steps:
       - if: ${{ env.REF == 'main' }}
         run: |
-          echo "PRO_PORT=8091" >> $GITHUB_ENV
+          echo "PRO_PORT=$PROD_PORT" >> $GITHUB_ENV
           echo "PRO_ENV=prod" >> $GITHUB_ENV
       - if: ${{ env.REF == 'dev' }}
         run: |
-          echo "PRO_PROT=8092" >> $GITHUB_ENV
+          echo "PRO_PROT=$DEV_PORT" >> $GITHUB_ENV
           echo "PRO_ENV=dev" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
