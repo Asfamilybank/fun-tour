@@ -78,9 +78,7 @@ jobs:
           context: .
           file: config/Dockerfile
           push: true
-          tags:
-            - ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-            - ${{ env.DOCKER_IMAGE }}:latest
+          tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
     runs-on: ubuntu-latest
