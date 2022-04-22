@@ -25,7 +25,7 @@ jobs:
   #         name: coverage-output
   #         path: coverage
   build:
-    if: ${{ env.REF == 'dev' || env.REF == 'main' || env.EVENT == 'merge_requests' }}
+    if: ${{ env.REF == 'dev' }} || ${{ env.REF == 'main' }} || ${{ env.EVENT == 'merge_requests' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,7 +48,7 @@ jobs:
           path: ./dist
   push:
     needs: build
-    if: ${{ env.REF == 'dev' || env.REF == 'main' }}
+    if: ${{ env.REF == 'dev' }} || ${{ env.REF == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - if: ${{ env.REF == 'dev' }}
@@ -75,7 +75,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
-    if: ${{ env.REF == 'dev' || env.REF == 'main' }}
+    if: ${{ env.REF == 'dev' }} || ${{ env.REF == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - if: ${{ env.REF == 'dev' }}
