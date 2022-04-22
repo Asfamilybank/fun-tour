@@ -55,7 +55,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: dist
-          path: .
+          path: ./dist
       - if: ${{ github.ref_name == 'main' }}
         run: |
           echo "PRO_PORT=8091" >> $GITHUB_ENV
