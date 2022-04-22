@@ -1,7 +1,7 @@
 name: FUN TOUR FRONTEND CI
 on:
   - push
-  - merge_requests
+  - pull_request
 env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
