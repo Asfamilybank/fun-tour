@@ -94,7 +94,6 @@ jobs:
         run: |
           echo "PRO_PROT=8092" >> $GITHUB_ENV
           echo "PRO_ENV=dev" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
       - uses: appleboy/ssh-action@master
         env:
           DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
