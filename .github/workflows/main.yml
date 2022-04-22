@@ -76,6 +76,7 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.PRO_ENV }}_${{ github.sha }}
   deploy:
     needs: [build, push]
+    runs-on: ubuntu-latest
     steps:
     - uses: appleboy/ssh-action@master
       with:
