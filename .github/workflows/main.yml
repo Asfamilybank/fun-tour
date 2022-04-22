@@ -12,6 +12,7 @@ env:
   IMAGE_NAME: fun-tour
 jobs:
   test:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -50,17 +51,20 @@ jobs:
   push:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      - REF: ${{ github.ref_name }}
+      - DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
           name: dist
           path: ./dist
-      - if: ${{ github.ref_name == 'main' }}
+      - if: ${{ env.REF == 'main' }}
         run: |
           echo "PRO_PORT=8091" >> $GITHUB_ENV
           echo "PRO_ENV=prod" >> $GITHUB_ENV
-      - if: ${{ github.ref_name == 'dev' }}
+      - if: ${{ env.REF == 'dev' }}
         run: |
           echo "PRO_PROT=8092" >> $GITHUB_ENV
           echo "PRO_ENV=dev" >> $GITHUB_ENV
@@ -74,18 +78,25 @@ jobs:
           context: .
           file: config/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.PRO_ENV }}_${{ github.sha }}
+          tags:
+            - ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+            - ${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
     runs-on: ubuntu-latest
+    env:
+      - DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
+      - DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
     steps:
       - uses: actions/checkout@v3
       - uses: appleboy/ssh-action@master
         with:
           host: secrets.REMOTE_HOST
+          port: secrets.REMOTE_PORT
+          key: secrets.REMOTE_KEY
           username: secrets.REMOTE_USERNAME
-          key: secrets.REMOTE_PRIVATE_KEY
           script: |
-            docker rm -f ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME}}_${{ env.PRO_ENV }}
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.PRO_ENV }}_${{ github.sha }}
-            docker run --name ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME}}_${{ env.PRO_ENV }} -p ${{ env.PRO_PORT }}:80 -dit ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.PRO_ENV }}_${{ github.sha }}
+            docker rm -f ${{ env.DOCKER_CONTAINER }}
+            docker rmi -f ${{ env.DOCKER_IMAGE }}
+            docker pull ${{ env.DOCKER_IMAGE }}
+            docker run --name ${{ env.DOCKER_CONTAINER }} -p ${{ env.PRO_PORT }}:80 -dit ${{ env.DOCKER_IMAGE }}
