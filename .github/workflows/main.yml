@@ -30,6 +30,7 @@ jobs:
           name: coverage-output
           path: coverage
   build:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -51,6 +52,7 @@ jobs:
           name: dist
           path: ./dist
   push:
+    if: false
     needs: build
     runs-on: ubuntu-latest
     env:
@@ -83,7 +85,7 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
-    needs: [build, push]
+#     needs: [build, push]
     runs-on: ubuntu-latest
     env:
       REF: ${{ github.ref_name }}
