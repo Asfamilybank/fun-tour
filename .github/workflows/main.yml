@@ -102,8 +102,8 @@ jobs:
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
         with:
           host: secrets.REMOTE_HOST
-#           password: secrets.REMOTE_PASSWORD
-          key: secrets.REMOTE_PRIVATE_KEY
+          password: secrets.REMOTE_PASSWORD
+#           key: secrets.REMOTE_PRIVATE_KEY
           username: secrets.REMOTE_USERNAME
           script: |
             docker rm -f ${{ env.DOCKER_CONTAINER }}
