@@ -52,8 +52,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      - REF: ${{ github.ref_name }}
-      - DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
+      REF: ${{ github.ref_name }}
+      DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
@@ -85,8 +85,8 @@ jobs:
     needs: [build, push]
     runs-on: ubuntu-latest
     env:
-      - DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
-      - DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
+      DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
+      DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
     steps:
       - uses: actions/checkout@v3
       - uses: appleboy/ssh-action@master
