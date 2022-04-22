@@ -6,8 +6,6 @@ env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
   PORT_DEV: 8092
-  REF: ${{ github.ref_name }}
-  EVENT: ${{ github.event_name }}
 jobs:
   # test:
   #   runs-on: ubuntu-latest
@@ -25,7 +23,7 @@ jobs:
   #         name: coverage-output
   #         path: coverage
   build:
-    if: ${{ github.ref_name == 'main' }}
+    if: github.ref_name == 'main' || github.ref_name == 'dev' ||  github.event_name == 'pull_requests'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,7 +46,7 @@ jobs:
           path: ./dist
   push:
     needs: build
-#     if: env.REF == 'dev' || env.REF == 'main'
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
     steps:
       - if: env.REF == 'dev'
@@ -75,7 +73,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
-#     if: env.REF == 'dev' || env.REF == 'main'
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
     steps:
       - if: env.REF == 'dev'
