@@ -1,36 +1,31 @@
 name: FUN TOUR FRONTEND CI
 on:
-  push:
-    branches:
-      - main
-      - dev
-    paths:
-      - src/**
-      - .github/**
-      - package.json
+  - push
+  - merge_requests
 env:
   IMAGE_NAME: fun-tour
-  PROD_PORT: 8091
-  DEV_PORT: 8092
+  PORT_PROD: 8091
+  PORT_DEV: 8092
+  REF: ${{ github.ref_name }}
+  EVENT: ${{ github.event_name }}
 jobs:
-  test:
-    if: false
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.1.1
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - run: |
-          yarn
-          yarn coverage
-      - uses: actions/upload-artifact@v3
-        with:
-          name: coverage-output
-          path: coverage
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3.1.1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: yarn
+  #     - run: |
+  #         yarn
+  #         yarn coverage
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: coverage-output
+  #         path: coverage
   build:
-    if: false
+    if: ${{ env.REF == 'dev' || env.REF == 'main' || env.EVENT == 'merge_requests' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -52,20 +47,14 @@ jobs:
           name: dist
           path: ./dist
   push:
-    if: false
     needs: build
+    if: ${{ env.REF == 'dev' || env.REF == 'main' }}
     runs-on: ubuntu-latest
-    env:
-      REF: ${{ github.ref_name }}
     steps:
-      - if: ${{ env.REF == 'main' }}
-        run: |
-          echo "PRO_PORT=$PROD_PORT" >> $GITHUB_ENV
-          echo "PRO_ENV=prod" >> $GITHUB_ENV
       - if: ${{ env.REF == 'dev' }}
-        run: |
-          echo "PRO_PROT=$DEV_PORT" >> $GITHUB_ENV
-          echo "PRO_ENV=dev" >> $GITHUB_ENV
+        run: echo "PRO_ENV=dev" >> $GITHUB_ENV
+      - if: ${{ env.REF == 'main' }}
+        run: echo "PRO_ENV=prod" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
@@ -85,19 +74,14 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
-#     needs: [build, push]
+    needs: [build, push]
+    if: ${{ env.REF == 'dev' || env.REF == 'main' }}
     runs-on: ubuntu-latest
-    env:
-      REF: ${{ github.ref_name }}
     steps:
-      - if: ${{ env.REF == 'main' }}
-        run: |
-          echo "PRO_PORT=8091" >> $GITHUB_ENV
-          echo "PRO_ENV=prod" >> $GITHUB_ENV
       - if: ${{ env.REF == 'dev' }}
-        run: |
-          echo "PRO_PROT=8092" >> $GITHUB_ENV
-          echo "PRO_ENV=dev" >> $GITHUB_ENV
+        run: echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
+      - if: ${{ env.REF == 'main' }}
+        run: echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
       - uses: appleboy/ssh-action@master
         env:
           DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
