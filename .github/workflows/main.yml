@@ -79,6 +79,7 @@ jobs:
     needs: [build, push]
     runs-on: ubuntu-latest
     steps:
+      - uses: action/checkout@v3
       - uses: appleboy/ssh-action@master
         with:
           host: secrets.REMOTE_HOST
