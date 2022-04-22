@@ -25,7 +25,7 @@ jobs:
   #         name: coverage-output
   #         path: coverage
   build:
-    if: ${{ env.REF == 'main' }}
+    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
