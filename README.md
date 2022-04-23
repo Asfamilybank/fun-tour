@@ -213,79 +213,75 @@ workflows 文件有很多配置项，详情可见 [官方文档](https://docs.gi
 
 4.  编写 workflows
     将镜像托管在 docker hub 中，那么就需要登录 docker hub 。明文存放密码肯定不行，在 GitHub repository 中的 `Settings -> secrets -> action -> new action secrets` 中创建密钥。密钥名分别为 `DOCKER_USERNAME` 和 `DOCKER_TOKEN。` > 名字可以随意取，但配置中用到的变量名需相同！
+    使用 `ssh` 连接服务器,还需要存储密钥 `REMOTE_HOST` 、 `REMOTE_USERNAME` 和 `REMOTE_PASSWORD`。或者使用私钥 `REMOTE_PRIVATE_KEY` 登录。
 
-        ```yaml
-        # .github/workflows/main.yml
-        name: CI
-        on:
-          - push
-        env:
-          # 构建的镜像名
-          IMAGE_NAME: test
-          # docker 容器访问端口
-          PROT: 8091
-        jobs:
-          build:
-            # 选择运行虚拟机环境
-            runs-on: ubuntu-latest
-            steps:
-              # 拉去代码
-              - name: Fetch branch code
-                uses: actions/checkout@v3
-              # Setup node 环境
-              - name: Use Node.js
-                uses: actions/setup-node@v3.1.1
-                with:
-                  # 选择 node 版本
-                  node-version: 16.x
-                  # 缓存 yarn
-                  cache: yarn
-              # 打包项目
-              - name: Build Front
-                run: |
-                  yarn
-                  yarn build
-              - uses: actions/upload-artifact@v3
-                with:
-                  name: dist
-                  path: ./dist
-              - if: env.REF == 'dev'
-                run: echo "PRO_ENV=dev" >> $GITHUB_ENV
-              - if: env.REF == 'main'
-                run: echo "PRO_ENV=prod" >> $GITHUB_ENV
-              - uses: actions/checkout@v3
-              - uses: actions/download-artifact@v3
-                with:
-                  name: dist
-                  path: ./dist
-              - uses: docker/setup-buildx-action@v1
-              - uses: docker/login-action@v1
-                with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
-              - uses: docker/build-push-action@v2
-                env:
-                  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
-                with:
-                  context: .
-                  file: config/Dockerfile
-                  push: true
-                  tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
-              - if: env.REF == 'dev'
-                run: echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
-              - if: env.REF == 'main'
-                run: echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
-              - uses: appleboy/ssh-action@master
-                env:
-                  DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
-                  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
-                with:
-                  host: ${{ secrets.REMOTE_HOST }}
-                  key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-                  username: ${{ secrets.REMOTE_USERNAME }}
-                  script: |
-                    docker rm -f ${{ env.DOCKER_CONTAINER }}
-                    docker rmi -f ${{ env.DOCKER_IMAGE }}
-                    docker pull ${{ env.DOCKER_IMAGE }}
-                    docker run --name ${{ env.DOCKER_CONTAINER }} -p ${{ env.PRO_PORT }}:80 -dit ${{ env.DOCKER_IMAGE }}
-        ```
+    ```yaml
+    # .github/workflows/main.yml
+    name: CI
+    on:
+      - push
+    env:
+      # 构建的镜像名
+      IMAGE_NAME: test
+      # docker 容器访问端口
+      PROT: 8091
+    jobs:
+      build:
+        # 选择运行虚拟机环境
+        runs-on: ubuntu-latest
+        steps:
+          # 拉去代码
+          - name: Fetch branch code
+            uses: actions/checkout@v3
+          # Setup node 环境
+          - name: Use Node.js
+            uses: actions/setup-node@v3.1.1
+            with:
+              # 选择 node 版本
+              node-version: 16.x
+              # 缓存 yarn
+              cache: yarn
+          # 打包项目
+          - name: Build Front
+            run: |
+              yarn
+              yarn build
+          # Setup docker 环境
+          - uses: docker/setup-buildx-action@v1
+          # 登录docker
+          - uses: docker/login-action@v1
+            with:
+              username: ${{ secrets.DOCKERHUB_USERNAME }}
+              password: ${{ secrets.DOCKERHUB_TOKEN }}
+          # 打包并发布镜像到 docker hub
+          - uses: docker/build-push-action@v2
+            with:
+              context: .
+              file: config/Dockerfile
+              push: true
+              # docker hub 镜像命名规则 <username>/<image_name>[?:<tag>]
+              tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          # SSH 连接远程服务器
+          - uses: appleboy/ssh-action@master
+            env:
+              # 服务器 容器名
+              DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}
+              # 服务器 镜像名
+              DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
+            with:
+              host: ${{ secrets.REMOTE_HOST }}
+              key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+              username: ${{ secrets.REMOTE_USERNAME }}
+              # 连接远程服务器后执行的脚本
+              script: |
+                # 删除原 docker 容器
+                docker rm -f ${{ env.DOCKER_CONTAINER }}
+                # 删除原 docker 镜像
+                docker rmi -f ${{ env.DOCKER_IMAGE }}
+                # 拉取 docker 镜像
+                docker pull ${{ env.DOCKER_IMAGE }}
+                # 运行 docker
+                docker run --name ${{ env.DOCKER_CONTAINER }} -p ${{ env.PRO_PORT }}:80 -dit ${{ env.DOCKER_IMAGE }}
+    ```
+    以上示例代码就完成了 GitHub Actions 的持续集成。
+
