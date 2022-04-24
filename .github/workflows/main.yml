@@ -77,9 +77,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - if: github.ref_name == 'dev'
-        run: echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
+        run: |
+          echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
+          echo "PRO_ENV=dev" >> $GITHUB_ENV
       - if: github.ref_name == 'main'
-        run: echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
+        run: |
+          echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
+          echo "PRO_ENV=prod" >> $GITHUB_ENV
       - uses: appleboy/ssh-action@master
         env:
           DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
