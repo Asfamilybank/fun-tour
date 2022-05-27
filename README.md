@@ -283,5 +283,5 @@ workflows 文件有很多配置项，详情可见 [官方文档](https://docs.gi
                 # 运行 docker
                 docker run --name ${{ env.DOCKER_CONTAINER }} -p ${{ env.PRO_PORT }}:80 -dit ${{ env.DOCKER_IMAGE }}
     ```
-    以上示例代码就完成了 GitHub Actions 的持续集成。
 
+    以上示例代码就完成了 GitHub Actions 的持续集成。
