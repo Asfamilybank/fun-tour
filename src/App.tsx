@@ -4,9 +4,9 @@ const App = () => {
   const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello Fun Tour</p>
+    <div>
+      <header>
+        <p className="m-2">Hello Fun Tour</p>
         <p>
           <button type="button" onClick={() => setCount((count) => count + 1)}>
             count is: {count}
