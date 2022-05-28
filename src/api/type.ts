@@ -5,5 +5,5 @@ export interface IResponse<T> {
 
 export interface IFailResponse {
   success: false
-  errMes: string
+  errMsg: string
 }

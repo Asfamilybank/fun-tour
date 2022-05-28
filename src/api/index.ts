@@ -53,6 +53,13 @@ class ApiRequest {
   }
 
   private handleResponse(response: AxiosResponse) {
+    response.data.success = response.data.code === '200'
+    if (!response.data.success) {
+      response.data.errMsg = response.data.errMes
+      return response
+    }
+    delete response.data.code
+    delete response.data.errMes
     return response
   }
 
