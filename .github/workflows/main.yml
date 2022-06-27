@@ -34,11 +34,11 @@ jobs:
         uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
+          cache: pnpm
       - name: Build Front
         run: |
-          yarn
-          yarn build
+          pnpm i
+          pnpm build
       - uses: actions/upload-artifact@v3
         with:
           name: dist
