@@ -7,21 +7,30 @@ env:
   PORT_PROD: 8091
   PORT_DEV: 8092
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3.1.1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: yarn
-  #     - run: |
-  #         yarn
-  #         yarn coverage
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: coverage-output
-  #         path: coverage
+  test:
+    if: github.ref_name != 'main' || github.ref_name != 'stable'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.1.1
+        with:
+          node-version: 16
+          cache: npm
+      - uses: pnpm/action-setup@v2.0.1
+          name: Install pnpm
+          id: pnpm-install
+          with:
+            version: 7
+            run_install: false
+      - run: |
+          pnpm install
+          pnpm lint:fix
+          pnpm lint:format
+          pnpm coverage
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-output
+          path: coverage
   build:
     if: github.ref_name == 'main' || github.ref_name == 'dev' ||  github.event_name == 'pull_requests'
     runs-on: ubuntu-latest
@@ -52,7 +61,7 @@ jobs:
           path: ./dist
   push:
     needs: build
-    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - if: github.ref_name == 'dev'
@@ -79,7 +88,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
-    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - if: github.ref_name == 'dev'
