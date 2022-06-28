@@ -1,21 +1,51 @@
 import CommonApi from 'api/common'
-import { useSetRecoilState } from 'recoil'
-import { countState } from 'store/atoms'
+import { useState } from 'react'
+import KeepAlive from 'react-activation'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Home = () => {
-  const setCount = useSetRecoilState(countState)
+  const [visible, setVisible] = useState(false)
+  const [divRef] = useAutoAnimate<HTMLDivElement>()
 
   const onBtnClick = async () => {
-    setCount((v) => v + 1)
-    const res = await CommonApi.login({ name: '1', password: '2' })
-    console.log(res)
+    const res = CommonApi.login({ name: 'abc', password: 'pwd' })
   }
 
   return (
     <>
-      <button className="block border" onClick={onBtnClick}>
+      <button
+        className="block p-2 m-2 rounded-lg border active:ring-2"
+        // onClick={() => setVisible((v) => !v)}
+        onClick={onBtnClick}
+      >
+        login
+      </button>
+
+      <div ref={divRef} className="overflow-hidden p-3 m-3 border">
+        {visible ? (
+          <>
+            <ChildNode />
+            <KeepAlive>
+              <ChildNode />
+            </KeepAlive>
+          </>
+        ) : null}
+      </div>
+    </>
+  )
+}
+
+const ChildNode = () => {
+  const [count, setCount] = useState(0)
+  return (
+    <>
+      <button
+        className="px-2 m-2 border"
+        onClick={() => setCount((v) => v + 1)}
+      >
         +
       </button>
+      {count}
     </>
   )
 }

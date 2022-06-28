@@ -18,9 +18,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@formkit/auto-animate": "1.0.0-beta.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
     "react": "^18.1.0",
+    "react-activation": "^0.11.2",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "recoil": "0.7.3-alpha.2",
