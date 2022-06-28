@@ -26,7 +26,7 @@ jobs:
           name: coverage-output
           path: coverage
   build:
-    if: github.ref_name == 'main' || github.ref_name == 'stable
+    if: github.ref_name == 'main' || github.ref_name == 'stable'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
