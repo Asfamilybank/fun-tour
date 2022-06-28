@@ -5,54 +5,39 @@ on:
 env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
-  PORT_DEV: 8092
+  PORT_STABLE: 8092
 jobs:
   test:
-    if: github.ref_name != 'main' || github.ref_name != 'stable'
+    if: github.ref_name == 'test'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.1.1
         with:
           node-version: 16
-          cache: npm
       - uses: pnpm/action-setup@v2.0.1
-          name: Install pnpm
-          id: pnpm-install
-          with:
-            version: 7
-            run_install: false
+        with:
+          version: 7
+          run_install: false
       - run: |
-          pnpm install
-          pnpm lint:fix
-          pnpm lint:format
           pnpm coverage
       - uses: actions/upload-artifact@v3
         with:
           name: coverage-output
           path: coverage
   build:
-    if: github.ref_name == 'main' || github.ref_name == 'dev' ||  github.event_name == 'pull_requests'
+    if: github.ref_name == 'main' || github.ref_name == 'stable'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 16.x
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.1.1
+      - uses: actions/setup-node@v3.1.1
         with:
-          node-version: ${{ matrix.node-version }}
-
+          node-version: 16
       - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
         with:
           version: 7
           run_install: false
-      - name: Build Front
-        run: |
+      - run: |
           pnpm install
           pnpm build
       - uses: actions/upload-artifact@v3
@@ -61,13 +46,13 @@ jobs:
           path: ./dist
   push:
     needs: build
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'main' ||  github.ref_name == 'stable'
     runs-on: ubuntu-latest
     steps:
-      - if: github.ref_name == 'dev'
-        run: echo "PRO_ENV=dev" >> $GITHUB_ENV
       - if: github.ref_name == 'main'
         run: echo "PRO_ENV=prod" >> $GITHUB_ENV
+      - if: github.ref_name == 'stable'
+        run: echo "PRO_ENV=stable" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
@@ -91,10 +76,10 @@ jobs:
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
-      - if: github.ref_name == 'dev'
-        run: |
-          echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
-          echo "PRO_ENV=dev" >> $GITHUB_ENV
+      # - if: github.ref_name == 'dev'
+      #   run: |
+      #     echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
+      #     echo "PRO_ENV=dev" >> $GITHUB_ENV
       - if: github.ref_name == 'main'
         run: |
           echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
