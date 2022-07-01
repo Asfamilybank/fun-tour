@@ -1,5 +1,9 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn lint:fix
-yarn lint:format
+pnpm lint:fix
+pnpm lint:format
+
+
+exitCode="$?"
+exit $exitCode

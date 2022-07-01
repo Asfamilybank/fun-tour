@@ -1,14 +1,15 @@
-import CommonApi from 'api/common'
 import { useState } from 'react'
 import KeepAlive from 'react-activation'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { userApi } from 'api'
 
 const Home = () => {
   const [visible, setVisible] = useState(false)
   const [divRef] = useAutoAnimate<HTMLDivElement>()
 
   const onBtnClick = async () => {
-    const res = CommonApi.login({ name: 'abc', password: 'pwd' })
+    const res = await userApi.login({ account: 'abc', password: 'pwd' })
+    console.log(res)
   }
 
   return (

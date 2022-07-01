@@ -25,11 +25,13 @@
     "react-activation": "^0.11.2",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
+    "react-use": "^17.4.0",
     "recoil": "0.7.3-alpha.2",
     "swr": "^1.3.0"
   },
   "devDependencies": {
     "@testing-library/react": "^13.2.0",
+    "@types/node": "^18.0.0",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.26.0",

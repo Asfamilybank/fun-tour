@@ -1,13 +1,13 @@
 import Home from 'page/home'
 import Layout from 'page/layout'
 import { Route, Routes } from 'react-router-dom'
-import { ROOT, HOME } from './path'
+import { ROUTE_ROOT, ROUTE_HOME } from './path'
 
 const Router = () => {
   return (
     <Routes>
-      <Route path={ROOT} element={<Layout />}>
-        <Route path={HOME} element={<Home />} />
+      <Route path={ROUTE_ROOT} element={<Layout />}>
+        <Route path={ROUTE_HOME} element={<Home />} />
       </Route>
     </Routes>
   )
