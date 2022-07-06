@@ -1,14 +1,29 @@
-import Home from 'page/home'
-import Layout from 'page/layout'
+import Home from 'page/Home'
+import Layout from 'page/Layout'
+import Login from 'page/Login'
 import { Route, Routes } from 'react-router-dom'
-import { ROUTE_ROOT, ROUTE_HOME } from './path'
+import { useEffectOnce } from 'react-use'
+import useInit from './hooks'
+import { ROUTE_ROOT, ROUTE_HOME, ROUTE_LOGIN } from './path'
 
 const Router = () => {
+  const { isLoading, init } = useInit()
+
+  useEffectOnce(() => {
+    init()
+  })
+
+  if (isLoading) {
+    return <>加载中</>
+  }
+
   return (
     <Routes>
-      <Route path={ROUTE_ROOT} element={<Layout />}>
+      <Route path={ROUTE_ROOT} element={<></>} />
+      <Route element={<Layout />}>
         <Route path={ROUTE_HOME} element={<Home />} />
       </Route>
+      <Route path={ROUTE_LOGIN} element={<Login />} />
     </Routes>
   )
 }

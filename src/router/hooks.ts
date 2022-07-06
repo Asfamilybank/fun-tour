@@ -8,27 +8,34 @@ import {
   initApiOption,
   initEnv,
   initSentry,
-  TOKEN,
-  USER_ID
+  TOKEN
+  // USER_ID
   // VERSION
 } from './utils'
 import { ROUTE_LOGIN, ROUTE_ROOT } from './path'
+import { userInfo } from 'store/user'
+import { useSetRecoilState } from 'recoil'
+import { userApi } from 'api'
 
 const useInit = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
-  // const setUserInfo = useSetRecoilState(userInfo)
+  const setUserInfo = useSetRecoilState(userInfo)
   // const setUserState = useSetRecoilState(userState)
   const { pathname } = useLocation()
 
   const init = async () => {
     const token = localStorage.getItem(TOKEN)
-    const userID = localStorage.getItem(USER_ID)
+    // const userID = localStorage.getItem(USER_ID)
     initEnv()
     const version = await getVersion()
-    initApiOption(token, userID, version)
+    initApiOption({
+      token,
+      //  userID,
+      version
+    })
     initSentry()
-    if (token && userID) {
+    if (token) {
       await afterInitApiOption()
       setTimeout(() => {
         setIsLoading(false)
@@ -54,16 +61,10 @@ const useInit = () => {
   }
 
   const afterInitApiOption = async () => {
-    // const [info, state] = await Promise.all([
-    //   commonApi.myInfo(),
-    //   commonApi.userStatus()
-    // ])
-    // if (info.success) {
-    //   setUserInfo((v) => ({ ...v, ...info.data }))
-    // }
-    // if (state.success) {
-    //   setUserState((v) => ({ ...v, ...state.data }))
-    // }
+    const res = await userApi.getInfo()
+    if (res.success) {
+      setUserInfo((v) => ({ ...v, ...res.data }))
+    }
   }
 
   return { isLoading, init }

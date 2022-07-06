@@ -2,6 +2,9 @@ import axios, { AxiosPromise, AxiosError, AxiosResponse } from 'axios'
 
 import { ErrorHandle } from './service'
 import { Response, FailResponse } from './response'
+import { TOKEN } from 'router/utils'
+import { Snackbar } from '@mui/material'
+import Toast from 'components/Toast'
 
 const API_ROOT = `${import.meta.env.VITE_BASE_URL}`
 
@@ -58,6 +61,12 @@ export const handleResponse = (
       data
     }
   }
+
+  if (res.data.code === 403) {
+    localStorage.removeItem(TOKEN)
+    // Toast.success('身份信息已失效，请重新登录！')
+  }
+
   const errMsg = res.data.errMes
   const errCode = res.data.code
   return {

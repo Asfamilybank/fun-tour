@@ -10,7 +10,7 @@ import { ROUTE_LOGIN } from './path'
 
 export const USER_ID = 'userID'
 export const PHONE = 'phone'
-export const TOKEN = `${import.meta.env.TOKEN_KEY}`
+export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
 // export const VERSION = 'version'
 
 export const errorHandle = (status: number, data: any) => {
@@ -61,16 +61,25 @@ export const initEnv = () => {
   // }
 }
 
-export const initApiOption = (
-  token: string | null,
-  userID: string | null,
+export const initApiOption = ({
+  token,
+  userID,
+  version
+}: {
+  token: string | null
+  userID?: string | null
   version: number
-) => {
+}) => {
   apiOptions.setOnError(errorHandle)
   // apiOptions.setOnBeforeSend(() => TToast.loadingToast(''))
   // apiOptions.setOnAfterSend(TToast.clearToast)
-  if (userID && token) {
-    apiOptions.setCredentials(token, parseInt(userID, 10), version)
+  // if (userID && token) {
+  if (token) {
+    apiOptions.setCredentials({
+      token,
+      //  userID: parseInt(userID, 10),
+      version
+    })
   }
 }
 

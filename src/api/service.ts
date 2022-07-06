@@ -11,16 +11,24 @@ export type ErrorHandle = (status: number, data: any) => void
 export class ApiBaseOptions {
   token = ''
   // userID = 0
-  // version = 0
+  version = 0
   env?: string
   onError?: ErrorHandle
   beforeSend?: Callback
   afterSend?: Callback
 
-  setCredentials(token: string, userID: number, version: number) {
+  setCredentials({
+    token,
+    // userID,
+    version
+  }: {
+    token: string
+    userID?: number
+    version: number
+  }) {
     this.token = token
     // this.userID = userID
-    // this.version = version
+    this.version = version
   }
 
   setEnv(env?: string) {
@@ -99,6 +107,50 @@ export default class ApiBase {
               // userid: this.options.userID.toString(),
               // version: this.options.version.toString()
             },
+            baseURL
+          }),
+        this.options?.onError
+      ),
+      sleep(500)
+    ])
+    if (!options.back && this.options?.afterSend) {
+      this.options.afterSend()
+    }
+
+    if (res.success) {
+      return res as Response<T>
+    } else {
+      return res as FailResponse
+    }
+  }
+
+  protected get = async <T = any>(
+    url = '',
+    search: any = {},
+    options?: RequestOptions
+  ) => {
+    options = {
+      ...defaultRequestOptions,
+      ...(options || {})
+    }
+
+    if (!options.back && this.options?.beforeSend) {
+      this.options.beforeSend()
+    }
+
+    const baseURL = `${
+      options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''
+    }${import.meta.env.VITE_BASE_URL}`
+    const [res] = await Promise.all([
+      wrapperSend(
+        () =>
+          this.request.get(url, {
+            headers: {
+              token: `${this.options.token}`
+              // userid: this.options.userID.toString(),
+              // version: this.options.version.toString()
+            },
+            params: search,
             baseURL
           }),
         this.options?.onError

@@ -7,4 +7,8 @@ export default class UserApi extends ApiBase {
   login(params: Params.ILogin) {
     return this.post<Responses.ILogin>('/user/login', params)
   }
+
+  getInfo() {
+    return this.get<Responses.IGetInfo>('/user/cache')
+  }
 }
