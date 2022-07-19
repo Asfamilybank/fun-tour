@@ -55,13 +55,13 @@ export class ApiBaseOptions {
 }
 
 export type RequestOptions = {
-  back?: boolean
+  loading?: boolean
   encrypt?: boolean
   mock?: boolean
 }
 
 const defaultRequestOptions: RequestOptions = {
-  back: true,
+  loading: false,
   encrypt: true,
   mock: false
 }
@@ -85,35 +85,33 @@ export default class ApiBase {
       ...(options || {})
     }
 
-    if (!options.back && this.options?.beforeSend) {
+    if (options.loading && this.options?.beforeSend) {
       this.options.beforeSend()
     }
 
     const encrypt = body
 
-    // if (options.encrypt && this.options?.env === 'production') {
-    //   encrypt = rsaEncrypt(body)
-    // }
+    if (options.encrypt && this.options?.env === 'production') {
+      // encrypt = rsaEncrypt(body)
+    }
 
-    const baseURL = `${
-      options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''
-    }${import.meta.env.VITE_BASE_URL}`
+    const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
+
     const [res] = await Promise.all([
       wrapperSend(
         () =>
-          this.request.post(url, encrypt, {
+          this.request.post(mockURL + url, encrypt, {
             headers: {
               token: `${this.options.token}`
               // userid: this.options.userID.toString(),
               // version: this.options.version.toString()
-            },
-            baseURL
+            }
           }),
         this.options?.onError
       ),
       sleep(500)
     ])
-    if (!options.back && this.options?.afterSend) {
+    if (options.loading && this.options?.afterSend) {
       this.options.afterSend()
     }
 
@@ -134,30 +132,28 @@ export default class ApiBase {
       ...(options || {})
     }
 
-    if (!options.back && this.options?.beforeSend) {
+    if (options.loading && this.options?.beforeSend) {
       this.options.beforeSend()
     }
 
-    const baseURL = `${
-      options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''
-    }${import.meta.env.VITE_BASE_URL}`
+    const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
+
     const [res] = await Promise.all([
       wrapperSend(
         () =>
-          this.request.get(url, {
+          this.request.get(mockURL + url, {
             headers: {
               token: `${this.options.token}`
               // userid: this.options.userID.toString(),
               // version: this.options.version.toString()
             },
-            params: search,
-            baseURL
+            params: search
           }),
         this.options?.onError
       ),
       sleep(500)
     ])
-    if (!options.back && this.options?.afterSend) {
+    if (options.loading && this.options?.afterSend) {
       this.options.afterSend()
     }
 
@@ -176,7 +172,7 @@ export default class ApiBase {
     if (!options) {
       options = defaultRequestOptions
     }
-    if (!options.back && this.options?.beforeSend) {
+    if (options.loading && this.options?.beforeSend) {
       this.options.beforeSend()
     }
     const [res] = await Promise.all([
@@ -185,7 +181,7 @@ export default class ApiBase {
       }, this.options?.onError),
       sleep(500)
     ])
-    if (!options.back && this.options?.afterSend) {
+    if (options.loading && this.options?.afterSend) {
       this.options.afterSend()
     }
     return res as unknown as T

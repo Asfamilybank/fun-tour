@@ -20,7 +20,7 @@ export default defineConfig(() => {
       host: true,
       proxy: {
         '/api': {
-          target: 'http://czytgc.com:8771/public',
+          target: 'http://czytgc.com:8771',
           rewrite: (path) => path.replace(/\/api/, '')
         }
       }

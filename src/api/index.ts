@@ -1,5 +1,5 @@
 import { ApiBaseOptions } from './service'
-import UserApi from './user'
+import PublicApi from './public'
 
 export const apiOptions = new ApiBaseOptions()
-export const userApi = new UserApi(apiOptions)
+export const publicApi = new PublicApi(apiOptions, '/public')

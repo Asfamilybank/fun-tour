@@ -15,7 +15,7 @@ import {
 import { ROUTE_LOGIN, ROUTE_ROOT } from './path'
 import { userInfo } from 'store/user'
 import { useSetRecoilState } from 'recoil'
-import { userApi } from 'api'
+import { publicApi } from 'api'
 
 const useInit = () => {
   const navigate = useNavigate()
@@ -61,7 +61,7 @@ const useInit = () => {
   }
 
   const afterInitApiOption = async () => {
-    const res = await userApi.getInfo()
+    const res = await publicApi.getInfo()
     if (res.success) {
       setUserInfo((v) => ({ ...v, ...res.data }))
     }

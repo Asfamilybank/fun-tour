@@ -3,14 +3,12 @@ import axios, { AxiosPromise, AxiosError, AxiosResponse } from 'axios'
 import { ErrorHandle } from './service'
 import { Response, FailResponse } from './response'
 import { TOKEN } from 'router/utils'
-import { Snackbar } from '@mui/material'
-import Toast from 'components/Toast'
 
 const API_ROOT = `${import.meta.env.VITE_BASE_URL}`
 
 export const createRequest = (root?: string) => {
   return axios.create({
-    baseURL: root ? root : API_ROOT,
+    baseURL: API_ROOT + (root ?? ''),
     headers: {
       'Content-type': 'application/json'
     },
