@@ -34,10 +34,11 @@ try {
   console.log('  format files with prettier')
   command('pnpm lint:format ' + lintList)
 
-  console.log('\nWill completed!\n')
+  console.log('\nWill completed!')
   command('git add ' + lintList)
 
   console.timeEnd('pre-commit completed')
+  console.log('')
 } catch (error) {
   console.log(error.stdout.toString())
   process.exit(1)
