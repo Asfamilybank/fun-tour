@@ -12,6 +12,8 @@ try {
     .split('\n')
     .map((m) => ({
       status: m[0] + m[1],
+      staged: m[0],
+      noStaged: m[1],
       isStaged: m[0] !== ' ' && m[0] !== '?',
       path: m.slice(3)
     }))
@@ -23,13 +25,17 @@ try {
 
   console.log('\nWill commit files:\n  ' + stagedList.join('\n  '))
 
+  const lintList = fileList
+    .filter((f) => f.isStaged && f.staged !== 'D')
+    .map((m) => m.path)
+
   console.log('\nWill lint files:\n  fix files with eslint')
-  command('pnpm lint:fix ' + stagedList.join(' '))
+  command('pnpm lint:fix ' + lintList)
   console.log('  format files with prettier')
-  command('pnpm lint:format ' + stagedList.join(' '))
+  command('pnpm lint:format ' + lintList)
 
   console.log('\nWill completed!\n')
-  command('git add ' + stagedList.join(' '))
+  command('git add ' + lintList)
 
   console.timeEnd('pre-commit completed')
 } catch (error) {
