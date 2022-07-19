@@ -85,8 +85,8 @@ export const initApiOption = ({
 
 const logout = async () => {
   await Promise.all([
-    localStorage.removeItem(TOKEN),
-    localStorage.removeItem(USER_ID)
+    localStorage.removeItem(TOKEN)
+    // localStorage.removeItem(USER_ID)
   ])
   setTimeout(() => {
     window.location.href = ROUTE_LOGIN
