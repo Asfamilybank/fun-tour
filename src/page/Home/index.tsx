@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import KeepAlive from 'react-activation'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { userApi } from 'api'
-import { TOKEN } from 'router/utils'
-import useInit from 'router/hooks'
 
 const Home = () => {
   const [visible, setVisible] = useState(false)
