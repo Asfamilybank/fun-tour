@@ -28,14 +28,15 @@ try {
   const lintList = fileList
     .filter((f) => f.isStaged && f.staged !== 'D')
     .map((m) => m.path)
+    .join(' ')
 
   console.log('\nWill lint files:\n  fix files with eslint')
-  command('pnpm lint:fix ' + lintList)
+  command(`pnpm lint:fix ${lintList}`)
   console.log('  format files with prettier')
-  command('pnpm lint:format ' + lintList)
+  command(`pnpm lint:format ${lintList}`)
 
   console.log('\nWill completed!')
-  command('git add ' + lintList)
+  command(`git add ${lintList}`)
 
   console.timeEnd('pre-commit completed')
   console.log('')
