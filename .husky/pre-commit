@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 console.time('pre-commit completed')
-const childProcess = require('child_process')
-const command = (command) => {
-  return childProcess.execSync(command)
-}
+const { execSync } = require('child_process')
 
 try {
-  const fileList = command('git status --porcelain --short')
+  const fileList = execSync('git status --porcelain --short')
     .toString()
     .trimEnd()
     .split('\n')
@@ -17,26 +14,29 @@ try {
       isStaged: m[0] !== ' ' && m[0] !== '?',
       path: m.slice(3)
     }))
-  const stagedList = fileList.filter((f) => f.isStaged).map((m) => m.path)
+  const stagedList = fileList
+    .filter((f) => f.isStaged)
+    .map((m) => `${m.status} ${m.path}`)
 
   if (!stagedList?.length) {
     throw { stdout: 'No file to commit!' }
   }
 
   console.log('\nWill commit files:\n  ' + stagedList.join('\n  '))
+  const willList = fileList.filter((f) => f.isStaged && f.staged !== 'D').map((m) => m.path)
 
-  const lintList = fileList
-    .filter((f) => f.isStaged && f.staged !== 'D')
-    .map((m) => m.path)
-    .join(' ')
+  const lintList = willList
+    .filter((f) => /^.*\.{js|jsx|ts|tsx}$/.test(f))
+    
+  console.log('\nWill lint files with eslint:\n  ' + lintList.join('\n  '))
+  execSync(`pnpm lint:fix ${lintList.join(' ')}`)
 
-  console.log('\nWill lint files:\n  fix files with eslint')
-  command(`pnpm lint:fix ${lintList}`)
-  console.log('  format files with prettier')
-  command(`pnpm lint:format ${lintList}`)
+  const formatList = willList.filter((f) => /^.*\.{js|jsx|ts|tsx|css|md|json|yml|html}$/.test(f))
+  console.log('\nWill format files with prettier:\n  ' + formatList.join('\n  '))
+  execSync(`pnpm lint:format ${formatList.join(' ')}`)
 
   console.log('\nWill completed!')
-  command(`git add ${lintList}`)
+  execSync(`git add ${formatList}`)
 
   console.timeEnd('pre-commit completed')
   console.log('')
