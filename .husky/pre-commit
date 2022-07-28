@@ -21,22 +21,22 @@ try {
   if (!stagedList?.length) {
     throw { stdout: 'No file to commit!' }
   }
-
   console.log('\nWill commit files:\n  ' + stagedList.join('\n  '))
+
   const willList = fileList.filter((f) => f.isStaged && f.staged !== 'D').map((m) => m.path)
 
   const lintList = willList
-    .filter((f) => /^.*\.{js|jsx|ts|tsx}$/.test(f))
+    .filter((f) => /^.*\.(js|jsx|ts|tsx)$/.test(f))
     
   console.log('\nWill lint files with eslint:\n  ' + lintList.join('\n  '))
-  execSync(`pnpm lint:fix ${lintList.join(' ')}`)
+  lintList.length && execSync(`pnpm lint:fix ${lintList.join(' ')}`)
 
-  const formatList = willList.filter((f) => /^.*\.{js|jsx|ts|tsx|css|md|json|yml|html}$/.test(f))
+  const formatList = willList.filter((f) => /^.*\.(js|jsx|ts|tsx|css|md|json|yml|html)$/.test(f))
   console.log('\nWill format files with prettier:\n  ' + formatList.join('\n  '))
-  execSync(`pnpm lint:format ${formatList.join(' ')}`)
+  formatList.length && execSync(`pnpm lint:format ${formatList.join(' ')}`)
 
   console.log('\nWill completed!')
-  execSync(`git add ${formatList}`)
+  execSync(`git add ${Array.from(new Set(lintList.concat(formatList))).join(' ')}`)
 
   console.timeEnd('pre-commit completed')
   console.log('')
