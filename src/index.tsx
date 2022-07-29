@@ -26,7 +26,9 @@ const App = () => {
   )
 }
 
-createRoot(document.getElementById('root')!).render(
+export const root = createRoot(document.getElementById('root')!)
+
+root.render(
   <>
     <RecoilRoot>
       <App />

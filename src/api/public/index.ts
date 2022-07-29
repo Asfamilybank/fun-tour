@@ -5,7 +5,7 @@ import * as Responses from './response'
 
 export default class PublicApi extends ApiBase {
   login(params: Params.ILogin) {
-    return this.post<Responses.ILogin>('/user/login', params)
+    return this.post<Responses.ILogin>('/user/login', params, { loading: true })
   }
 
   getInfo() {

@@ -1,6 +1,7 @@
 import Home from 'page/Home'
 import Layout from 'page/Layout'
 import Login from 'page/Login'
+import NoFind from 'page/NoFind'
 import { Route, Routes } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
 import useInit from './hooks'
@@ -24,6 +25,7 @@ const Router = () => {
         <Route path={ROUTE_HOME} element={<Home />} />
       </Route>
       <Route path={ROUTE_LOGIN} element={<Login />} />
+      <Route element={<NoFind />} />
     </Routes>
   )
 }

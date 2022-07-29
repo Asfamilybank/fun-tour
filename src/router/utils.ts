@@ -5,8 +5,9 @@
 
 // import { Dialog } from 'antd-mobile'
 import { apiOptions } from 'api'
+import Toast from 'components/Toast'
+import { sleep } from 'utils'
 import { ROUTE_LOGIN } from './path'
-// import TToast from 'components/TToast'
 
 export const USER_ID = 'userID'
 export const PHONE = 'phone'
@@ -15,8 +16,8 @@ export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
 
 export const errorHandle = (status: number, data: any) => {
   if (status === 500) {
-    // sentry.captureException(data.err_msg)
-    console.log(data.errMes)
+    // sentry.captureException(data.errMes)
+    Toast.error(data.errMes)
   }
   // if (
   //   status === 401 &&
@@ -34,11 +35,8 @@ export const errorHandle = (status: number, data: any) => {
   //     }
   //   })
   // }
-  // if (status === 403 || data.err_msg === '您的账户已冻结，请联系管理员解冻') {
-  //   TToast.failToast('登录已超时，请重新登录')
-  //   logout()
-  // }
   if (status === 403) {
+    Toast.warning('登录已超时，请重新登录')
     logout()
   }
 }
@@ -71,8 +69,8 @@ export const initApiOption = ({
   version: number
 }) => {
   apiOptions.setOnError(errorHandle)
-  // apiOptions.setOnBeforeSend(() => TToast.loadingToast(''))
-  // apiOptions.setOnAfterSend(TToast.clearToast)
+  apiOptions.setOnBeforeSend(Toast.loading)
+  apiOptions.setOnAfterSend(Toast.clear)
   // if (userID && token) {
   if (token) {
     apiOptions.setCredentials({
@@ -83,14 +81,12 @@ export const initApiOption = ({
   }
 }
 
-const logout = async () => {
-  await Promise.all([
-    localStorage.removeItem(TOKEN)
-    // localStorage.removeItem(USER_ID)
-  ])
-  setTimeout(() => {
-    window.location.href = ROUTE_LOGIN
-  }, 1500)
+export const logout = async () => {
+  Toast.loading()
+  localStorage.removeItem(TOKEN)
+  await sleep(1500)
+  Toast.clear()
+  window.location.href = ROUTE_LOGIN
 }
 
 // const VersionDialogContent = () => {
