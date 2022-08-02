@@ -19,7 +19,10 @@ type ImperativeProps = {
 type WrapperHandler = {
   close: () => void
 }
-export const renderImperatively = (element: ReactElement<ImperativeProps>) => {
+export const renderImperatively = (
+  element: ReactElement<ImperativeProps>,
+  parent?: HTMLElement
+) => {
   const WrapperRender: ForwardRefRenderFunction<WrapperHandler> = (_, ref) => {
     const [visible, setVisible] = useState<boolean | undefined>(undefined)
     const closedRef = useRef(false)
@@ -51,7 +54,10 @@ export const renderImperatively = (element: ReactElement<ImperativeProps>) => {
   }
   const Wrapper = forwardRef<WrapperHandler>(WrapperRender)
   const wrapperRef = createRef<WrapperHandler>()
-  const unmount = renderToBody(createElement(Wrapper, { ref: wrapperRef }))
+  const unmount = renderToBody(
+    createElement(Wrapper, { ref: wrapperRef }),
+    parent
+  )
   function close() {
     wrapperRef.current?.close()
   }

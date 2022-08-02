@@ -1,17 +1,16 @@
 import { ReactElement } from 'react'
 import { createRoot } from 'react-dom/client'
 
-export function renderToBody(element: ReactElement) {
+export function renderToBody(element: ReactElement, parent?: HTMLElement) {
   const div = document.createElement('div')
-  document.body.appendChild(div)
-  const container = createRoot(div)
-
+  ;(parent ?? document.body).appendChild(div)
+  const renderRoot = createRoot(div)
   function unmount() {
-    container.unmount()
+    renderRoot.unmount()
     if (div.parentNode) {
       div.parentNode.removeChild(div)
     }
   }
-  container.render(element)
+  renderRoot.render(element)
   return unmount
 }
