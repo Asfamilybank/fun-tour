@@ -1,4 +1,4 @@
-import { useTheme, Snackbar, Slide, Alert } from '@mui/material'
+import { IconCheck, IconClose, IconInfo, IconDanger, IconBell } from 'icons'
 
 export interface IToastComponentProps {
   visible?: boolean
@@ -17,26 +17,60 @@ const ToastComponent = ({
   onClose,
   afterClose
 }: IToastComponentProps) => {
-  const theme = useTheme()
   const handleClose = () => {
     onClose && onClose()
     setTimeout(() => {
       afterClose && afterClose()
-    }, theme.transitions.duration.leavingScreen + 50)
+    }, 300)
   }
+
+  setTimeout(() => {
+    handleClose()
+  }, AUTO_HIDE_DURATION)
+
+  console.log(severity)
+
+  const handleSeverity = () => {
+    switch (severity) {
+      case 'success':
+        return 'alert-success'
+      case 'error':
+        return 'alert-error'
+      case 'info':
+        return 'alert-info'
+      case 'warning':
+        return 'alert-warning'
+      default:
+        return ''
+    }
+  }
+
+  const handleIcon = () => {
+    switch (severity) {
+      case 'success':
+        return <IconCheck />
+      case 'error':
+        return <IconClose />
+      case 'info':
+        return <IconInfo />
+      case 'warning':
+        return <IconDanger />
+      default:
+        return <IconBell />
+    }
+  }
+
   return (
-    <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      autoHideDuration={AUTO_HIDE_DURATION}
-      TransitionComponent={Slide}
-      onClose={handleClose}
-      open={visible}
-      key={message}
+    <div
+      className={`alert shadow-lg ${handleSeverity()} ${
+        visible ? 'slide-in-top' : 'slide-out-top'
+      }`}
     >
-      <Alert severity={severity} variant="filled">
-        {message}
-      </Alert>
-    </Snackbar>
+      <div>
+        {handleIcon()}
+        <span>{message}</span>
+      </div>
+    </div>
   )
 }
 

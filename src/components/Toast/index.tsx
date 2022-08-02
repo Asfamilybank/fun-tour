@@ -1,4 +1,3 @@
-import { createContext, useContext } from 'react'
 import show, { clearFnSet, showLoading } from './show'
 
 const clear = () => {
@@ -22,6 +21,7 @@ const loading = (message = '') => {
   showLoading({ message })
 }
 const Toast = {
+  show,
   success,
   info,
   warning,
