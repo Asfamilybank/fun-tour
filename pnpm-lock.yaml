@@ -31,6 +31,7 @@ specifiers:
   react: ^18.2.0
   react-activation: ^0.11.2
   react-dom: ^18.2.0
+  react-hook-form: ^7.34.0
   react-router-dom: ^6.3.0
   react-use: ^17.4.0
   recoil: 0.7.3-alpha.2
@@ -55,6 +56,7 @@ dependencies:
   react: 18.2.0
   react-activation: 0.11.2_sh5qlbywuemxd2y3xkrw2y2kr4
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.34.0_react@18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   recoil: 0.7.3-alpha.2_biqbaboplfbrettd7655fr4n2y
@@ -3323,6 +3325,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-hook-form/7.34.0_react@18.2.0:
+    resolution: {integrity: sha512-s0/TJ09NVlEk2JPp3yit1WnMuPNBXFmUKEQPulgDi9pYBw/ZmmAFHe6AXWq73Y+kp8ye4OcMf0Jv+i/qLPektg==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
