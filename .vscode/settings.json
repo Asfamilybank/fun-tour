@@ -3,10 +3,12 @@
     "loglevel",
     "pnpm",
     "semibold",
+    "sweetalert",
     "tailwindcss",
     "tanggangchao",
     "vite",
     "vitejs",
     "vitest"
-  ]
+  ],
+  "commentTranslate.targetLanguage": "zh-CN"
 }

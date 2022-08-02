@@ -40,6 +40,13 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off'
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'tailwindcss/classnames-order': 'warn',
+    'tailwindcss/enforces-negative-arbitrary-values': 'warn',
+    'tailwindcss/enforces-shorthand': 'warn',
+    'tailwindcss/migration-from-tailwind-2': 'warn',
+    'tailwindcss/no-arbitrary-value': 'off',
+    'tailwindcss/no-custom-classname': 'off',
+    'tailwindcss/no-contradicting-classname': 'error'
   }
 }
