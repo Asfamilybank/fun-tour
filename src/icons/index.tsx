@@ -1,12 +1,7 @@
-import { SvgIcon, SvgIconProps } from '@mui/material'
-import ArrowUpSvg from 'assets/svg/arrow-up.svg'
+import IconInfo from 'assets/svg/info.svg'
+import IconCheck from 'assets/svg/check.svg'
+import IconDanger from 'assets/svg/danger.svg'
+import IconBell from 'assets/svg/bell.svg'
+import IconClose from 'assets/svg/close.svg'
 
-export const ArrowUpIcon = (props: SvgIconProps) => {
-  return (
-    <SvgIcon
-      component={ArrowUpSvg as React.ElementType}
-      viewBox="0 0 32 32"
-      {...props}
-    />
-  )
-}
+export { IconInfo, IconCheck, IconDanger, IconBell, IconClose }
