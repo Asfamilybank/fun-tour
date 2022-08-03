@@ -17,7 +17,7 @@ const warning = (message: string) => {
 const error = (message: string) => {
   show({ message, severity: 'error' })
 }
-const loading = (message = '') => {
+const loading = (message = '加载中...') => {
   showLoading({ message })
 }
 const Toast = {

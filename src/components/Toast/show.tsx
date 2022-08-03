@@ -1,7 +1,7 @@
 import { renderImperatively } from 'utils/render-imperatively'
-import LoadingComponent, { ILoadingComponentProps } from './loading'
 import ToastComponent, { IToastComponentProps } from './toast'
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 export const clearFnSet = new Set<() => void>()
 
 const TOAST_CONTAINER_ID = 'toast-container'
@@ -32,18 +32,25 @@ const show = (p?: IToastComponentProps) => {
   return handle
 }
 
-export const showLoading = (p?: ILoadingComponentProps) => {
-  const props = Object.assign({}, p)
-  const handle = renderImperatively(
-    <LoadingComponent
-      {...props}
-      afterClose={() => {
-        clearFnSet.delete(handle.close)
-      }}
-    />
-  )
-  clearFnSet.add(handle.close)
-  return handle
+const MySwal = withReactContent(Swal).mixin({
+  width: 'auto',
+  showConfirmButton: false,
+  customClass: {
+    footer: 'mt-0 border-none'
+  }
+})
+
+export const showLoading = ({ message }: { message: string }) => {
+  MySwal.fire({
+    footer: <p>{message}</p>,
+    didOpen: () => {
+      MySwal.showLoading()
+    },
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  })
+  clearFnSet.add(MySwal.close)
+  return MySwal.close
 }
 
 export default show

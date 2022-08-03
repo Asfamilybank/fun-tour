@@ -23,9 +23,9 @@ const Router = () => {
       <Route path={ROUTE_ROOT} element={<></>} />
       <Route element={<Layout />}>
         <Route path={ROUTE_HOME} element={<Home />} />
+        <Route element={<NoFind />} />
       </Route>
       <Route path={ROUTE_LOGIN} element={<Login />} />
-      <Route element={<NoFind />} />
     </Routes>
   )
 }
