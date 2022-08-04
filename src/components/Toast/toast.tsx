@@ -28,8 +28,6 @@ const ToastComponent = ({
     handleClose()
   }, AUTO_HIDE_DURATION)
 
-  console.log(severity)
-
   const handleSeverity = () => {
     switch (severity) {
       case 'success':

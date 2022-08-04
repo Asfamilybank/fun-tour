@@ -30,8 +30,8 @@ const Login = () => {
     }
     Toast.success('登录成功')
     localStorage.setItem(TOKEN, res.data.token.toString())
-    await init()
     navigate(ROUTE_HOME)
+    await init()
   }
 
   return (
