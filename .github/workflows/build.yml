@@ -1,13 +1,13 @@
 name: Build
 on:
-  - push:
-      branches:
-        - main
-        - stable
-  - pull_request:
-      branches:
-        - main
-        - stable
+  push:
+    branches:
+      - main
+      - stable
+  pull_request:
+    branches:
+      - main
+      - stable
 env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
