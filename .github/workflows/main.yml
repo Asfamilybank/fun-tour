@@ -1,6 +1,5 @@
 name: Build
 on:
-  - push
   - pull_request
 env:
   IMAGE_NAME: fun-tour
@@ -20,6 +19,7 @@ jobs:
           version: 7
           run_install: false
       - run: |
+          pnpm install
           pnpm coverage
       - uses: actions/upload-artifact@v3
         with:
