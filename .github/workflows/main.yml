@@ -1,32 +1,19 @@
-name: FUN TOUR FRONTEND CI
+name: Build
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+      - stable
+  pull_request:
+    branches:
+      - main
+      - stable
 env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
   PORT_STABLE: 8092
 jobs:
-  test:
-    if: github.ref_name == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.1.1
-        with:
-          node-version: 16
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7
-          run_install: false
-      - run: |
-          pnpm coverage
-      - uses: actions/upload-artifact@v3
-        with:
-          name: coverage-output
-          path: coverage
   build:
-    if: github.ref_name == 'main' || github.ref_name == 'stable'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -45,13 +32,12 @@ jobs:
           name: dist
           path: ./dist
   push:
-    needs: build
-    if: github.ref_name == 'main' ||  github.ref_name == 'stable'
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - if: github.ref_name == 'main'
+      - if: github.ref_name == 'main' || github.base_ref == 'main'
         run: echo "PRO_ENV=prod" >> $GITHUB_ENV
-      - if: github.ref_name == 'stable'
+      - if: github.ref_name == 'stable' || github.base_ref == 'stable'
         run: echo "PRO_ENV=stable" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
@@ -73,14 +59,9 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
     needs: [build, push]
-    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
-      # - if: github.ref_name == 'dev'
-      #   run: |
-      #     echo "PRO_PORT=$PORT_DEV" >> $GITHUB_ENV
-      #     echo "PRO_ENV=dev" >> $GITHUB_ENV
-      - if: github.ref_name == 'main'
+      - if: github.ref_name == 'main' || github.base_ref == 'main'
         run: |
           echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
           echo "PRO_ENV=prod" >> $GITHUB_ENV

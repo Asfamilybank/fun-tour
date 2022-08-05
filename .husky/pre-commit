@@ -1,5 +1,46 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env node
+console.time('pre-commit completed')
+const { execSync } = require('child_process')
 
-yarn lint:fix
-yarn lint:format
+try {
+  const fileList = execSync('git status --porcelain --short')
+    .toString()
+    .trimEnd()
+    .split('\n')
+    .map((m) => ({
+      status: m[0] + m[1],
+      staged: m[0],
+      noStaged: m[1],
+      isStaged: m[0] !== ' ' && m[0] !== '?',
+      path: m.slice(3)
+    }))
+  const stagedList = fileList
+    .filter((f) => f.isStaged)
+    .map((m) => `${m.status} ${m.path}`)
+
+  if (!stagedList?.length) {
+    throw { stdout: 'No file to commit!' }
+  }
+  console.log('\nWill commit files:\n  ' + stagedList.join('\n  '))
+
+  const willList = fileList.filter((f) => f.isStaged && f.staged !== 'D').map((m) => m.path)
+
+  const lintList = willList
+    .filter((f) => /^.*\.(js|jsx|ts|tsx)$/.test(f))
+    
+  console.log('\nWill lint files with eslint:\n  ' + lintList.join('\n  '))
+  lintList.length && execSync(`pnpm lint:fix ${lintList.join(' ')}`)
+
+  const formatList = willList.filter((f) => /^.*\.(js|jsx|ts|tsx|css|md|json|yml|html)$/.test(f))
+  console.log('\nWill format files with prettier:\n  ' + formatList.join('\n  '))
+  formatList.length && execSync(`pnpm lint:format ${formatList.join(' ')}`)
+
+  console.log('\nWill completed!')
+  execSync(`git add ${Array.from(new Set(lintList.concat(formatList))).join(' ')}`)
+
+  console.timeEnd('pre-commit completed')
+  console.log('')
+} catch (error) {
+  console.log(error.stdout.toString())
+  process.exit(1)
+}

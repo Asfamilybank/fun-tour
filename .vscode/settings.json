@@ -2,10 +2,14 @@
   "cSpell.words": [
     "loglevel",
     "pnpm",
+    "semibold",
+    "Swal",
+    "sweetalert",
     "tailwindcss",
     "tanggangchao",
     "vite",
     "vitejs",
     "vitest"
-  ]
+  ],
+  "commentTranslate.targetLanguage": "zh-CN"
 }
