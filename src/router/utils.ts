@@ -5,6 +5,7 @@
 
 // import { Dialog } from 'antd-mobile'
 import { apiOptions } from 'api'
+import { ErrorHandle } from 'api/service'
 import Toast from 'components/Toast'
 import { sleep } from 'utils'
 import { ROUTE_LOGIN } from './path'
@@ -14,10 +15,12 @@ export const PHONE = 'phone'
 export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
 // export const VERSION = 'version'
 
-export const errorHandle = (status: number, data: any) => {
-  if (status === 500) {
+export const errorHandle: ErrorHandle = (e) => {
+  let errMsg = ''
+  if (e.status && e.status === '500') {
     // sentry.captureException(data.errMes)
-    Toast.error(data.errMes)
+    Toast.error(e.response?.data?.errMes)
+    errMsg = e.response?.data?.errMes
   }
   // if (
   //   status === 401 &&
@@ -35,9 +38,15 @@ export const errorHandle = (status: number, data: any) => {
   //     }
   //   })
   // }
-  if (status === 403) {
+  if (e.status && e.status === '403') {
     Toast.warning('登录已超时，请重新登录')
+    errMsg = '登录已超时，请重新登录'
     logout()
+  }
+  return {
+    success: false,
+    errCode: parseInt(e.status || '500'),
+    errMsg
   }
 }
 

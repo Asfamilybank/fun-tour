@@ -20,26 +20,24 @@ export const createRequest = (root?: string) => {
 
 type requestFactory = () => AxiosPromise<any>
 
-export const wrapperSend = async (
+export const wrapperSend = async <T = any>(
   request: requestFactory,
   errorHandle?: ErrorHandle
-): Promise<Response<any> | FailResponse> => {
+): Promise<Response<T> | FailResponse> => {
   try {
     const res = await request()
 
     return handleResponse(res)
   } catch (error) {
     const e = error as AxiosError
-    if (e.response) {
-      errorHandle?.(e.response.status, e.response.data)
-      return e.response.data as FailResponse
-    } else {
-      return {
+    const errResponse = errorHandle?.(e)
+    return (
+      errResponse || {
         success: false,
         errCode: 500,
         errMsg: '当前网络信号较差，请稍后再试'
       }
-    }
+    )
   }
 }
 

@@ -20,7 +20,7 @@ const Desktop = ({
           {header}
         </header>
         <div className="flex grow space-x-4">
-          <article className="shrink-0">{aside}</article>
+          {aside && <article className="shrink-0">{aside}</article>}
           <main className="grow">{children}</main>
         </div>
         <div className="shrink-0">{footer}</div>

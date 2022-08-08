@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import { AxiosError, AxiosInstance, Method } from 'axios'
 import { sleep } from 'utils'
 
 import { wrapperSend, createRequest } from './request'
@@ -6,7 +6,7 @@ import { Response, FailResponse } from './response'
 
 export type Callback = () => void
 
-export type ErrorHandle = (status: number, data: any) => void
+export type ErrorHandle = (e: AxiosError<any>) => FailResponse
 
 export class ApiBaseOptions {
   token = ''
@@ -75,11 +75,17 @@ export default class ApiBase {
     this.options = options
   }
 
-  protected post = async <T = any>(
+  protected fetch = async <T = any>({
     url = '',
-    body: any = {},
+    data = {},
+    method,
+    options
+  }: {
+    url?: string
+    data?: any
+    method: Method
     options?: RequestOptions
-  ) => {
+  }) => {
     options = {
       ...defaultRequestOptions,
       ...(options || {})
@@ -89,7 +95,7 @@ export default class ApiBase {
       this.options.beforeSend()
     }
 
-    const encrypt = body
+    const encrypt = data
 
     if (options.encrypt && this.options?.env === 'production') {
       // encrypt = rsaEncrypt(body)
@@ -97,29 +103,33 @@ export default class ApiBase {
 
     const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
 
-    const [res] = await Promise.all([
-      wrapperSend(
-        () =>
-          this.request.post(mockURL + url, encrypt, {
-            headers: {
-              token: `${this.options.token}`
-              // userid: this.options.userID.toString(),
-              // version: this.options.version.toString()
-            }
-          }),
-        this.options?.onError
-      ),
-      sleep(500)
-    ])
+    const res = await wrapperSend<T>(
+      () =>
+        this.request({
+          url: mockURL + url,
+          data: encrypt,
+          method,
+          headers: {
+            token: `${this.options.token}`
+            // userid: this.options.userID.toString(),
+            // version: this.options.version.toString()
+          }
+        }),
+      this.options?.onError
+    )
     if (options.loading && this.options?.afterSend) {
       this.options.afterSend()
     }
 
-    if (res.success) {
-      return res as Response<T>
-    } else {
-      return res as FailResponse
-    }
+    return res
+  }
+
+  protected post = async <T = any>(
+    url = '',
+    data: any = {},
+    options?: RequestOptions
+  ) => {
+    return this.fetch<T>({ url, data, method: 'POST', options })
   }
 
   protected get = async <T = any>(
@@ -127,41 +137,7 @@ export default class ApiBase {
     search: any = {},
     options?: RequestOptions
   ) => {
-    options = {
-      ...defaultRequestOptions,
-      ...(options || {})
-    }
-
-    if (options.loading && this.options?.beforeSend) {
-      this.options.beforeSend()
-    }
-
-    const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
-
-    const [res] = await Promise.all([
-      wrapperSend(
-        () =>
-          this.request.get(mockURL + url, {
-            headers: {
-              token: `${this.options.token}`
-              // userid: this.options.userID.toString(),
-              // version: this.options.version.toString()
-            },
-            params: search
-          }),
-        this.options?.onError
-      ),
-      sleep(500)
-    ])
-    if (options.loading && this.options?.afterSend) {
-      this.options.afterSend()
-    }
-
-    if (res.success) {
-      return res as Response<T>
-    } else {
-      return res as FailResponse
-    }
+    return this.fetch<T>({ url, data: search, method: 'GET', options })
   }
 
   protected upload = async <T = any>(
