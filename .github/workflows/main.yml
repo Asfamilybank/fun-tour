@@ -1,8 +1,9 @@
 name: CI
 on:
   pull_request_target:
-    - main
-    - stable
+    branches:
+      - main
+      - stable
 env:
   IMAGE_NAME: fun-tour
   PORT_PROD: 8091
