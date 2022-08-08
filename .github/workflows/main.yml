@@ -1,10 +1,6 @@
-name: Build
+name: CI
 on:
-  push:
-    branches:
-      - main
-      - stable
-  pull_request:
+  pull_request_target:
     branches:
       - main
       - stable
@@ -32,7 +28,8 @@ jobs:
           name: dist
           path: ./dist
   push:
-    needs: [build]
+    needs:
+      - build
     runs-on: ubuntu-latest
     steps:
       - if: github.ref_name == 'main' || github.base_ref == 'main'
@@ -58,7 +55,9 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }},${{ env.DOCKER_IMAGE }}:latest
   deploy:
-    needs: [build, push]
+    needs:
+      - build
+      - push
     runs-on: ubuntu-latest
     steps:
       - if: github.ref_name == 'main' || github.base_ref == 'main'

@@ -8,7 +8,7 @@ import Footer from 'components/Footer'
 const Home = () => {
   return (
     <Desktop header={<NavBar />} footer={<Footer />}>
-      <div>1</div>
+      <div className="">1</div>
     </Desktop>
   )
 }

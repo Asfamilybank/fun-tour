@@ -1,0 +1,29 @@
+name: Test
+on:
+  push:
+    branches-ignore:
+      - main
+      - stable
+env:
+  IMAGE_NAME: fun-tour
+  PORT_PROD: 8091
+  PORT_STABLE: 8092
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.1.1
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7
+          run_install: false
+      - run: |
+          pnpm install
+          pnpm coverage
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-output
+          path: coverage

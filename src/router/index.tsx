@@ -1,5 +1,6 @@
 import Home from 'page/Home'
 import Layout from 'page/Layout'
+import Load from 'page/Load'
 import Login from 'page/Login'
 import NoFind from 'page/NoFind'
 import { Route, Routes } from 'react-router-dom'
@@ -15,7 +16,7 @@ const Router = () => {
   })
 
   if (isLoading) {
-    return <>加载中</>
+    return <Load />
   }
 
   return (
