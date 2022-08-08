@@ -1,6 +1,6 @@
 name: CI
 on:
-  pull_request:
+  push:
     branches:
       - main
       - stable
@@ -62,8 +62,8 @@ jobs:
     steps:
       - if: github.ref_name == 'main' || github.base_ref == 'main'
         run: |
-          echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
-          echo "PRO_ENV=prod" >> $GITHUB_ENV
+          echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV"
+          echo "PRO_ENV=prod" >> $GITHUB_ENV"
       - uses: appleboy/ssh-action@master
         env:
           DOCKER_CONTAINER: ${{ secrets.DOCKERHUB_USERNAME }}_${{ env.IMAGE_NAME }}_${{ env.PRO_ENV }}
