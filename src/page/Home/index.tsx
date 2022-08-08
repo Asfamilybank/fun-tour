@@ -5,7 +5,7 @@ import Footer from 'components/Footer'
 const Home = () => {
   return (
     <Desktop header={<NavBar />} footer={<Footer />}>
-      <div className="">1</div>
+      <div className="bg-base-100">1</div>
     </Desktop>
   )
 }
