@@ -62,7 +62,7 @@ jobs:
     steps:
       - if: github.ref_name == 'main' || github.base_ref == 'main'
         run: |
-          echo "PRO_PROT=$PORT_PROD" >> $GITHUB_ENV
+          echo "PRO_PORT=$PORT_PROD" >> $GITHUB_ENV
           echo "PRO_ENV=prod" >> $GITHUB_ENV
       - uses: appleboy/ssh-action@master
         env:
