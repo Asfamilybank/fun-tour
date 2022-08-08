@@ -1,10 +1,29 @@
 import React from 'react'
+import { logout } from 'router/utils'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import { themeChange } from 'theme-change'
 
 const NavBar = () => {
   React.useEffect(() => {
     themeChange(false)
   }, [])
+
+  const dialog = withReactContent(Swal)
+
+  const onLogout = async () => {
+    const confirm = await dialog.fire({
+      title: '确定退出登录吗？',
+      text: '你将无法获取更多服务!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '退出',
+      cancelButtonText: '取消'
+    })
+    if (confirm.isConfirmed) {
+      logout()
+    }
+  }
 
   return (
     <nav className="navbar bg-base-100 rounded-lg shadow">
@@ -89,7 +108,7 @@ const NavBar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={onLogout}>退出</a>
             </li>
           </ul>
         </div>

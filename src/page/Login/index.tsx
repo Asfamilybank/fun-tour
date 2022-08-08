@@ -54,13 +54,13 @@ const Login = () => {
                   <div className="form-control">
                     <label className="label">账户</label>
                     <input
+                      {...field}
                       className={`input input-bordered ${
                         error ? 'input-error' : ''
                       }`}
                       placeholder="请输入账户名"
                       tabIndex={1}
                       autoFocus
-                      {...field}
                     />
                     <label className="label" ref={AnimateForm}>
                       {error && (

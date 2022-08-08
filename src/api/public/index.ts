@@ -11,4 +11,8 @@ export default class PublicApi extends ApiBase {
   getInfo() {
     return this.get<Responses.IGetInfo>('/user/cache')
   }
+
+  uploadFileV2(params: Params.IUploadFileV2) {
+    return this.post<Responses.IUploadFileV2>('/file/images/v2', params)
+  }
 }
