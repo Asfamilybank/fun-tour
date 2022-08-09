@@ -3,10 +3,11 @@ import Layout from 'page/Layout'
 import Load from 'page/Load'
 import Login from 'page/Login'
 import NoFind from 'page/NoFind'
+import Register from 'page/Register'
 import { Route, Routes } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
 import useInit from './hooks'
-import { ROUTE_ROOT, ROUTE_HOME, ROUTE_LOGIN } from './path'
+import { ROUTE_ROOT, ROUTE_HOME, ROUTE_LOGIN, ROUTE_REGISTER } from './path'
 
 const Router = () => {
   const { isLoading, init } = useInit()
@@ -22,11 +23,12 @@ const Router = () => {
   return (
     <Routes>
       <Route path={ROUTE_ROOT} element={<></>} />
+      <Route path={ROUTE_LOGIN} element={<Login />} />
+      <Route path={ROUTE_REGISTER} element={<Register />} />
       <Route element={<Layout />}>
         <Route path={ROUTE_HOME} element={<Home />} />
-        <Route element={<NoFind />} />
+        <Route path="*" element={<NoFind />} />
       </Route>
-      <Route path={ROUTE_LOGIN} element={<Login />} />
     </Routes>
   )
 }

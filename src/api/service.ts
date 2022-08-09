@@ -2,7 +2,7 @@ import { AxiosError, AxiosInstance, Method } from 'axios'
 import { sleep } from 'utils'
 
 import { wrapperSend, createRequest } from './request'
-import { Response, FailResponse } from './response'
+import { FailResponse } from './response'
 
 export type Callback = () => void
 
@@ -138,6 +138,22 @@ export default class ApiBase {
     options?: RequestOptions
   ) => {
     return this.fetch<T>({ url, data: search, method: 'GET', options })
+  }
+
+  protected put = async <T = any>(
+    url = '',
+    data: any = {},
+    options?: RequestOptions
+  ) => {
+    return this.fetch<T>({ url, data, method: 'PUT', options })
+  }
+
+  protected delete = async <T = any>(
+    url = '',
+    data: any = {},
+    options?: RequestOptions
+  ) => {
+    return this.fetch<T>({ url, data, method: 'DELETE', options })
   }
 
   protected upload = async <T = any>(

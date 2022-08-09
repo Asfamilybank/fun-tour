@@ -12,7 +12,7 @@ import {
   // USER_ID
   // VERSION
 } from './utils'
-import { ROUTE_LOGIN, ROUTE_ROOT } from './path'
+import { ROUTE_LOGIN, WHITE_ROUTE_LIST } from './path'
 import { userInfo } from 'store/user'
 import { useSetRecoilState } from 'recoil'
 import { publicApi } from 'api'
@@ -42,7 +42,10 @@ const useInit = () => {
       }, 0)
       return
     }
-    if (!pathname.includes(ROUTE_LOGIN) && pathname !== ROUTE_ROOT) {
+    if (
+      !pathname.includes(ROUTE_LOGIN) &&
+      !WHITE_ROUTE_LIST.includes(pathname)
+    ) {
       navigate(ROUTE_LOGIN, { replace: true })
     }
     setIsLoading(false)
