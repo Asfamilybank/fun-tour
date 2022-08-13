@@ -74,7 +74,7 @@ const RegisterForm = () => {
       return
     }
     Toast.success('登录成功')
-    localStorage.setItem(TOKEN, res.data.token.toString())
+    localStorage.setItem(TOKEN, `${res.data.token}`)
     navigate(ROUTE_HOME)
     await init()
   }

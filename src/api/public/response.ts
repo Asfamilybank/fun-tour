@@ -6,7 +6,9 @@ export interface IGetInfo {
   user_id: number
 }
 
-export interface IRegister {}
+export interface IRegister {
+  token: string
+}
 
 export interface IUploadFileV2 {
   url: string
