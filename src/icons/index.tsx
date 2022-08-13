@@ -5,6 +5,7 @@ import IconBell from 'assets/svg/bell.svg'
 import IconClose from 'assets/svg/close.svg'
 import IconLock from 'assets/svg/lock.svg'
 import IconProfile from 'assets/svg/profile.svg'
+import IconImage from 'assets/svg/image.svg'
 
 export {
   IconInfo,
@@ -13,5 +14,6 @@ export {
   IconBell,
   IconClose,
   IconLock,
-  IconProfile
+  IconProfile,
+  IconImage
 }
