@@ -24,9 +24,7 @@ const Login = () => {
     <>
       <div
         className="relative flex h-screen w-screen items-center justify-center bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${LoginBgIcon})`
-        }}
+        style={{ backgroundImage: `url(${LoginBgIcon})` }}
       >
         <div className="card bg-base-100 w-96">
           <div className="card-body">
@@ -49,12 +47,7 @@ const LoginForm = () => {
   const { init } = useInit()
 
   const navigate = useNavigate()
-  const { control, handleSubmit } = useForm<IForm>({
-    defaultValues: {
-      account: '',
-      password: ''
-    }
-  })
+  const { control, handleSubmit } = useForm<IForm>({ defaultValues: { account: '', password: '' } })
   const [AnimateForm] = useAutoAnimate<HTMLLabelElement>()
   const onSubmit = async (data: IForm) => {
     Toast.loading('登录中...')
@@ -77,19 +70,9 @@ const LoginForm = () => {
         render={({ field, fieldState: { error } }) => (
           <div className="form-control">
             <label className="label">账户</label>
-            <input
-              {...field}
-              className={`input input-bordered ${error ? 'input-error' : ''}`}
-              placeholder="请输入账户名"
-              tabIndex={1}
-              autoFocus
-            />
+            <input {...field} className={`input input-bordered ${error ? 'input-error' : ''}`} placeholder="请输入账户名" tabIndex={1} autoFocus />
             <label className="label" ref={AnimateForm}>
-              {error && (
-                <span className="label-text-alt text-error">
-                  {error.message}
-                </span>
-              )}
+              {error && <span className="label-text-alt text-error">{error.message}</span>}
             </label>
           </div>
         )}
@@ -101,19 +84,9 @@ const LoginForm = () => {
         render={({ field, fieldState: { error } }) => (
           <div className="form-control">
             <label className="label">密码</label>
-            <input
-              className={`input input-bordered ${error ? 'input-error' : ''}`}
-              placeholder="请输入密码"
-              tabIndex={2}
-              type="password"
-              {...field}
-            />
+            <input className={`input input-bordered ${error ? 'input-error' : ''}`} placeholder="请输入密码" tabIndex={2} type="password" {...field} />
             <label className="label" ref={AnimateForm}>
-              {error && (
-                <span className="label-text-alt text-error">
-                  {error.message}
-                </span>
-              )}
+              {error && <span className="label-text-alt text-error">{error.message}</span>}
             </label>
           </div>
         )}
