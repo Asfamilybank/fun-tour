@@ -8,30 +8,30 @@ import {
   initApiOption,
   initEnv,
   initSentry,
-  TOKEN
-  // USER_ID
+  TOKEN,
+  USER_ID
   // VERSION
 } from './utils'
 import { ROUTE_LOGIN, WHITE_ROUTE_LIST } from './path'
-import { userInfo } from 'store/user'
+import { userInfoState } from 'store/user'
 import { useSetRecoilState } from 'recoil'
 import { publicApi } from 'api'
 
 const useInit = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
-  const setUserInfo = useSetRecoilState(userInfo)
+  const setUserInfo = useSetRecoilState(userInfoState)
   // const setUserState = useSetRecoilState(userState)
   const { pathname } = useLocation()
 
   const init = async () => {
     const token = localStorage.getItem(TOKEN)
-    // const userID = localStorage.getItem(USER_ID)
+    const userId = localStorage.getItem(USER_ID)
     initEnv()
     const version = await getVersion()
     initApiOption({
       token,
-      //  userID,
+      userId,
       version
     })
     initSentry()
@@ -42,10 +42,7 @@ const useInit = () => {
       }, 0)
       return
     }
-    if (
-      !pathname.includes(ROUTE_LOGIN) &&
-      !WHITE_ROUTE_LIST.includes(pathname)
-    ) {
+    if (!pathname.includes(ROUTE_LOGIN) && !WHITE_ROUTE_LIST.includes(pathname)) {
       navigate(ROUTE_LOGIN, { replace: true })
     }
     setIsLoading(false)
@@ -72,4 +69,5 @@ const useInit = () => {
 
   return { isLoading, init }
 }
+
 export default useInit

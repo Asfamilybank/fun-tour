@@ -6,14 +6,6 @@ import IconClose from 'assets/svg/close.svg'
 import IconLock from 'assets/svg/lock.svg'
 import IconProfile from 'assets/svg/profile.svg'
 import IconImage from 'assets/svg/image.svg'
+import IconHeart from 'assets/svg/heart.svg'
 
-export {
-  IconInfo,
-  IconCheck,
-  IconDanger,
-  IconBell,
-  IconClose,
-  IconLock,
-  IconProfile,
-  IconImage
-}
+export { IconInfo, IconCheck, IconDanger, IconBell, IconClose, IconLock, IconProfile, IconImage, IconHeart }

@@ -1,7 +1,7 @@
 import { publicApi } from 'api'
 import Toast from 'components/Toast'
 import useInit from 'router/hooks'
-import { TOKEN } from 'router/utils'
+import { TOKEN, USER_ID } from 'router/utils'
 import LoginBgIcon from 'assets/img/login-bg.png'
 import { Controller, useForm } from 'react-hook-form'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
@@ -57,7 +57,8 @@ const LoginForm = () => {
       return
     }
     Toast.success('登录成功')
-    localStorage.setItem(TOKEN, `${res.data.token}`)
+    localStorage.setItem(TOKEN, res.data.token)
+    localStorage.setItem(USER_ID, res.data.user.userId)
     navigate(ROUTE_HOME)
     await init()
   }

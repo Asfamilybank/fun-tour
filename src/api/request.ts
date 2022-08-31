@@ -2,7 +2,7 @@ import axios, { AxiosPromise, AxiosError, AxiosResponse } from 'axios'
 
 import { ErrorHandle } from './service'
 import { Response, FailResponse } from './response'
-import { TOKEN } from 'router/utils'
+import { logout } from 'router/utils'
 import Toast from 'components/Toast'
 
 const API_ROOT = `${import.meta.env.VITE_BASE_URL}`
@@ -20,10 +20,7 @@ export const createRequest = (root?: string) => {
 
 type requestFactory = () => AxiosPromise<any>
 
-export const wrapperSend = async <T = any>(
-  request: requestFactory,
-  errorHandle?: ErrorHandle
-): Promise<Response<T> | FailResponse> => {
+export const wrapperSend = async <T = any>(request: requestFactory, errorHandle?: ErrorHandle): Promise<Response<T> | FailResponse> => {
   try {
     const res = await request()
 
@@ -41,9 +38,7 @@ export const wrapperSend = async <T = any>(
   }
 }
 
-export const handleResponse = (
-  res: AxiosResponse<any, any>
-): Response<any> | FailResponse => {
+export const handleResponse = (res: AxiosResponse<any, any>): Response<any> | FailResponse => {
   if (res.config.baseURL?.includes('mock')) {
     return {
       success: true,
@@ -59,9 +54,9 @@ export const handleResponse = (
     }
   }
 
-  if (res.data.code === 403) {
-    localStorage.removeItem(TOKEN)
+  if (res.data.code === 403 || res.data.code === 407) {
     Toast.warning('登录已超时，请重新登录')
+    logout()
   }
 
   const errMsg = res.data.errMes

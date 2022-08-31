@@ -1,5 +1,6 @@
 export interface ILogin {
   token: string
+  user: IGetInfo
 }
 
 export interface IGetInfo {

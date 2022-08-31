@@ -1,11 +1,16 @@
+import Avatar from 'components/Avatar'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
+import { ROUTE_USER_PROFILE } from 'router/path'
 import { logout } from 'router/utils'
-import { userInfo } from 'store/user'
+import { userInfoState } from 'store/user'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 const UserProfile = () => {
-  const userInfoValue = useRecoilValue(userInfo)
+  const userInfoValue = useRecoilValue(userInfoState)
+  const dialog = withReactContent(Swal)
+  const navigate = useNavigate()
 
   const onLogout = async () => {
     const confirm = await dialog.fire({
@@ -21,26 +26,20 @@ const UserProfile = () => {
     }
   }
 
-  const dialog = withReactContent(Swal)
+  const onUserProfile = () => {
+    navigate(ROUTE_USER_PROFILE)
+  }
 
   return (
     <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img src={userInfoValue?.image} />
-        </div>
+      <label tabIndex={0} className="btn btn-circle">
+        <Avatar src={userInfoValue?.image} name={userInfoValue?.name} />
       </label>
-      <ul
-        tabIndex={0}
-        className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
-      >
-        <div className="text-base-content px-4 text-base font-semibold">
-          {userInfoValue?.name}
-        </div>
+      <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
+        <div className="text-base-content px-4 text-base font-semibold">{userInfoValue?.name}</div>
         <li>
-          <a className="justify-between">
-            Profile
-            <span className="badge">New</span>
+          <a className="justify-between" onClick={onUserProfile}>
+            个人空间
           </a>
         </li>
         <li>

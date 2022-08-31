@@ -10,8 +10,7 @@ import Toast from 'components/Toast'
 import { sleep } from 'utils'
 import { ROUTE_LOGIN } from './path'
 
-export const USER_ID = 'userID'
-export const PHONE = 'phone'
+export const USER_ID = 'userId'
 export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
 // export const VERSION = 'version'
 
@@ -68,23 +67,14 @@ export const initEnv = () => {
   // }
 }
 
-export const initApiOption = ({
-  token,
-  userID,
-  version
-}: {
-  token: string | null
-  userID?: string | null
-  version: number
-}) => {
+export const initApiOption = ({ token, userId, version }: { token: string | null; userId: string | null; version: number }) => {
   apiOptions.setOnError(errorHandle)
   apiOptions.setOnBeforeSend(Toast.loading)
   apiOptions.setOnAfterSend(Toast.clear)
-  // if (userID && token) {
-  if (token) {
+  if (token && userId) {
     apiOptions.setCredentials({
       token,
-      //  userID: parseInt(userID, 10),
+      userId,
       version
     })
   }
@@ -93,6 +83,7 @@ export const initApiOption = ({
 export const logout = async () => {
   Toast.loading()
   localStorage.removeItem(TOKEN)
+  localStorage.removeItem(USER_ID)
   await sleep(1500)
   Toast.clear()
   window.location.href = ROUTE_LOGIN
