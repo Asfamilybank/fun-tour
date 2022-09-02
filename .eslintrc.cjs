@@ -28,10 +28,7 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'tailwindcss'],
   rules: {
-    '@typescript-eslint/no-unused-vars': [
-      'warn',
-      { destructuredArrayIgnorePattern: '^_' }
-    ],
+    '@typescript-eslint/no-unused-vars': ['warn', { destructuredArrayIgnorePattern: '^_' }],
     '@typescript-eslint/no-empty-interface': 'off',
     'react/display-name': 'off',
     'react-hooks/rules-of-hooks': 'error',

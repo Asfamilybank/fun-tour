@@ -1,33 +1,25 @@
-import { AxiosInstance } from 'axios'
+import { AxiosError, AxiosInstance, Method } from 'axios'
 import { sleep } from 'utils'
 
 import { wrapperSend, createRequest } from './request'
-import { Response, FailResponse } from './response'
+import { FailResponse } from './response'
 
 export type Callback = () => void
 
-export type ErrorHandle = (status: number, data: any) => void
+export type ErrorHandle = (e: AxiosError<any>) => FailResponse
 
 export class ApiBaseOptions {
   token = ''
-  // userID = 0
+  userId = ''
   version = 0
   env?: string
   onError?: ErrorHandle
   beforeSend?: Callback
   afterSend?: Callback
 
-  setCredentials({
-    token,
-    // userID,
-    version
-  }: {
-    token: string
-    userID?: number
-    version: number
-  }) {
+  setCredentials({ token, userId, version }: { token: string; userId: string; version: number }) {
     this.token = token
-    // this.userID = userID
+    this.userId = userId
     this.version = version
   }
 
@@ -37,7 +29,7 @@ export class ApiBaseOptions {
 
   removeCredentials() {
     this.token = ''
-    // this.userID = 0
+    this.userId = ''
     // this.version = 0
   }
 
@@ -75,11 +67,7 @@ export default class ApiBase {
     this.options = options
   }
 
-  protected post = async <T = any>(
-    url = '',
-    body: any = {},
-    options?: RequestOptions
-  ) => {
+  protected fetch = async <T = any>({ url = '', data = {}, method, options }: { url?: string; data?: any; method: Method; options?: RequestOptions }) => {
     options = {
       ...defaultRequestOptions,
       ...(options || {})
@@ -89,7 +77,7 @@ export default class ApiBase {
       this.options.beforeSend()
     }
 
-    const encrypt = body
+    const encrypt = data
 
     if (options.encrypt && this.options?.env === 'production') {
       // encrypt = rsaEncrypt(body)
@@ -97,78 +85,44 @@ export default class ApiBase {
 
     const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
 
-    const [res] = await Promise.all([
-      wrapperSend(
-        () =>
-          this.request.post(mockURL + url, encrypt, {
-            headers: {
-              token: `${this.options.token}`
-              // userid: this.options.userID.toString(),
-              // version: this.options.version.toString()
-            }
-          }),
-        this.options?.onError
-      ),
-      sleep(500)
-    ])
+    const res = await wrapperSend<T>(
+      () =>
+        this.request({
+          url: mockURL + url,
+          data: encrypt,
+          method,
+          headers: {
+            token: `${this.options.token}`,
+            userid: this.options.userId
+            // version: this.options.version.toString()
+          }
+        }),
+      this.options?.onError
+    )
     if (options.loading && this.options?.afterSend) {
       this.options.afterSend()
     }
 
-    if (res.success) {
-      return res as Response<T>
-    } else {
-      return res as FailResponse
-    }
+    return res
   }
 
-  protected get = async <T = any>(
-    url = '',
-    search: any = {},
-    options?: RequestOptions
-  ) => {
-    options = {
-      ...defaultRequestOptions,
-      ...(options || {})
-    }
-
-    if (options.loading && this.options?.beforeSend) {
-      this.options.beforeSend()
-    }
-
-    const mockURL = `${options?.mock ? import.meta.env.VITE_MOCK_BASE_URL : ''}`
-
-    const [res] = await Promise.all([
-      wrapperSend(
-        () =>
-          this.request.get(mockURL + url, {
-            headers: {
-              token: `${this.options.token}`
-              // userid: this.options.userID.toString(),
-              // version: this.options.version.toString()
-            },
-            params: search
-          }),
-        this.options?.onError
-      ),
-      sleep(500)
-    ])
-    if (options.loading && this.options?.afterSend) {
-      this.options.afterSend()
-    }
-
-    if (res.success) {
-      return res as Response<T>
-    } else {
-      return res as FailResponse
-    }
+  protected post = async <T = any>(url = '', data: any = {}, options?: RequestOptions) => {
+    return this.fetch<T>({ url, data, method: 'POST', options })
   }
 
-  protected upload = async <T = any>(
-    url = '',
-    body: any = {},
-    options?: RequestOptions
-  ) => {
+  protected get = async <T = any>(url = '', search: any = {}, options?: RequestOptions) => {
+    return this.fetch<T>({ url, data: search, method: 'GET', options })
+  }
+
+  protected put = async <T = any>(url = '', data: any = {}, options?: RequestOptions) => {
+    return this.fetch<T>({ url, data, method: 'PUT', options })
+  }
+
+  protected delete = async <T = any>(url = '', data: any = {}, options?: RequestOptions) => {
+    return this.fetch<T>({ url, data, method: 'DELETE', options })
+  }
+
+  protected upload = async <T = any>(url = '', body: any = {}, options?: RequestOptions) => {
     if (!options) {
       options = defaultRequestOptions
     }

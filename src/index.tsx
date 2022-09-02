@@ -19,9 +19,7 @@ const App = () => {
 export const root = createRoot(document.getElementById('root')!)
 
 root.render(
-  <>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </>
+  <RecoilRoot>
+    <App />
+  </RecoilRoot>
 )

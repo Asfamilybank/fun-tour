@@ -5,19 +5,21 @@
 
 // import { Dialog } from 'antd-mobile'
 import { apiOptions } from 'api'
+import { ErrorHandle } from 'api/service'
 import Toast from 'components/Toast'
 import { sleep } from 'utils'
 import { ROUTE_LOGIN } from './path'
 
-export const USER_ID = 'userID'
-export const PHONE = 'phone'
+export const USER_ID = 'userId'
 export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
 // export const VERSION = 'version'
 
-export const errorHandle = (status: number, data: any) => {
-  if (status === 500) {
+export const errorHandle: ErrorHandle = (e) => {
+  let errMsg = ''
+  if (e.status && e.status === '500') {
     // sentry.captureException(data.errMes)
-    Toast.error(data.errMes)
+    Toast.error(e.response?.data?.errMes)
+    errMsg = e.response?.data?.errMes
   }
   // if (
   //   status === 401 &&
@@ -35,9 +37,15 @@ export const errorHandle = (status: number, data: any) => {
   //     }
   //   })
   // }
-  if (status === 403) {
+  if (e.status && e.status === '403') {
     Toast.warning('登录已超时，请重新登录')
+    errMsg = '登录已超时，请重新登录'
     logout()
+  }
+  return {
+    success: false,
+    errCode: parseInt(e.status || '500'),
+    errMsg
   }
 }
 
@@ -59,23 +67,14 @@ export const initEnv = () => {
   // }
 }
 
-export const initApiOption = ({
-  token,
-  userID,
-  version
-}: {
-  token: string | null
-  userID?: string | null
-  version: number
-}) => {
+export const initApiOption = ({ token, userId, version }: { token: string | null; userId: string | null; version: number }) => {
   apiOptions.setOnError(errorHandle)
   apiOptions.setOnBeforeSend(Toast.loading)
   apiOptions.setOnAfterSend(Toast.clear)
-  // if (userID && token) {
-  if (token) {
+  if (token && userId) {
     apiOptions.setCredentials({
       token,
-      //  userID: parseInt(userID, 10),
+      userId,
       version
     })
   }
@@ -84,6 +83,7 @@ export const initApiOption = ({
 export const logout = async () => {
   Toast.loading()
   localStorage.removeItem(TOKEN)
+  localStorage.removeItem(USER_ID)
   await sleep(1500)
   Toast.clear()
   window.location.href = ROUTE_LOGIN

@@ -46,28 +46,26 @@ const ToastComponent = ({
   const handleIcon = () => {
     switch (severity) {
       case 'success':
-        return <IconCheck />
+        return <IconCheck className="shrink-0" />
       case 'error':
-        return <IconClose />
+        return <IconClose className="shrink-0" />
       case 'info':
-        return <IconInfo />
+        return <IconInfo className="shrink-0" />
       case 'warning':
-        return <IconDanger />
+        return <IconDanger className="shrink-0" />
       default:
-        return <IconBell />
+        return <IconBell className="shrink-0" />
     }
   }
 
   return (
     <div
-      className={`alert shadow-lg ${handleSeverity()} ${
+      className={`alert w-max shadow-lg ${handleSeverity()} ${
         visible ? 'slide-in-top' : 'slide-out-top'
       }`}
     >
-      <div>
-        {handleIcon()}
-        <span>{message}</span>
-      </div>
+      {handleIcon()}
+      <span className="inline-block">{message}</span>
     </div>
   )
 }

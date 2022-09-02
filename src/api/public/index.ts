@@ -11,4 +11,14 @@ export default class PublicApi extends ApiBase {
   getInfo() {
     return this.get<Responses.IGetInfo>('/user/cache')
   }
+
+  register(params: Params.IRegister) {
+    return this.post<Responses.IRegister>('/user/register', params, {
+      loading: true
+    })
+  }
+
+  uploadFileV2(params: Params.IUploadFileV2) {
+    return this.post<Responses.IUploadFileV2>('/file/images/v2', params)
+  }
 }
