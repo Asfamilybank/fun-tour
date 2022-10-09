@@ -1,7 +1,7 @@
 import Avatar from 'components/Avatar'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { ROUTE_USER_PROFILE } from 'router/path'
+import { ROUTE_USER_PROFILE, ROUTE_USER_SPACE } from 'router/path'
 import { logout } from 'router/utils'
 import { userInfoState } from 'store/user'
 import Swal from 'sweetalert2'
@@ -26,6 +26,10 @@ const UserProfile = () => {
     }
   }
 
+  const onUserSpace = () => {
+    navigate(ROUTE_USER_SPACE)
+  }
+
   const onUserProfile = () => {
     navigate(ROUTE_USER_PROFILE)
   }
@@ -38,12 +42,14 @@ const UserProfile = () => {
       <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
         <div className="text-base-content px-4 text-base font-semibold">{userInfoValue?.name}</div>
         <li>
-          <a className="justify-between" onClick={onUserProfile}>
+          <a className="justify-between" onClick={onUserSpace}>
             个人空间
           </a>
         </li>
         <li>
-          <a>Settings</a>
+          <a className="justify-between" onClick={onUserProfile}>
+            设置
+          </a>
         </li>
         <li>
           <a onClick={onLogout}>退出</a>

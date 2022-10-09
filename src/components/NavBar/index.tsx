@@ -4,7 +4,7 @@ import UserProfile from './userProfile'
 const NavBar = () => {
   return (
     <nav className="navbar bg-base-100 rounded-lg shadow">
-      <div className="flex-1">
+      <div className="grow">
         <a className="btn btn-ghost text-xl normal-case" href="/home">
           FunTour
         </a>

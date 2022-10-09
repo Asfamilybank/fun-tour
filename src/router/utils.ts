@@ -11,7 +11,7 @@ import { sleep } from 'utils'
 import { ROUTE_LOGIN } from './path'
 
 export const USER_ID = 'userId'
-export const TOKEN = `${import.meta.env.VITE_TOKEN_KEY}`
+export const TOKEN = 'token'
 // export const VERSION = 'version'
 
 export const errorHandle: ErrorHandle = (e) => {
@@ -86,7 +86,9 @@ export const logout = async () => {
   localStorage.removeItem(USER_ID)
   await sleep(1500)
   Toast.clear()
-  window.location.href = ROUTE_LOGIN
+  const search = new URLSearchParams(window.location.search)
+  search.set('$replace', window.location.pathname)
+  window.location.href = ROUTE_LOGIN + '?' + search.toString()
 }
 
 // const VersionDialogContent = () => {

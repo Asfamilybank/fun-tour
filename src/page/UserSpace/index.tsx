@@ -6,7 +6,7 @@ import { IconHeart } from 'icons'
 import { useData } from 'utils/hooks'
 import { sightApi } from 'api'
 
-const UserProfile = () => {
+const UserSpace = () => {
   const [userState, setUserState] = useRecoilState(userInfoState)
 
   const { data } = useData(() => sightApi.collect({ userId: userState?.userId ?? '' }))
@@ -45,4 +45,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+export default UserSpace

@@ -5,7 +5,7 @@ import { TOKEN, USER_ID } from 'router/utils'
 import LoginBgIcon from 'assets/img/login-bg.png'
 import { Controller, useForm } from 'react-hook-form'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ROUTE_HOME, ROUTE_REGISTER } from 'router/path'
 
 type IForm = {
@@ -45,6 +45,8 @@ const Login = () => {
 
 const LoginForm = () => {
   const { init } = useInit()
+  const [search] = useSearchParams()
+  const replaceRoute = search.get('$replace') ?? ''
 
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<IForm>({ defaultValues: { account: '', password: '' } })
@@ -59,9 +61,11 @@ const LoginForm = () => {
     Toast.success('登录成功')
     localStorage.setItem(TOKEN, res.data.token)
     localStorage.setItem(USER_ID, res.data.user.userId)
-    navigate(ROUTE_HOME)
+    search.delete('$replace')
+    navigate((replaceRoute || ROUTE_HOME) + '?' + search.toString())
     await init()
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller

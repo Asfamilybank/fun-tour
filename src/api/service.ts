@@ -1,4 +1,5 @@
 import { AxiosError, AxiosInstance, Method } from 'axios'
+import { TOKEN, USER_ID } from 'router/utils'
 import { sleep } from 'utils'
 
 import { wrapperSend, createRequest } from './request'
@@ -50,6 +51,8 @@ export type RequestOptions = {
   loading?: boolean
   encrypt?: boolean
   mock?: boolean
+  [TOKEN]?: string
+  [USER_ID]?: string
 }
 
 const defaultRequestOptions: RequestOptions = {
@@ -92,8 +95,8 @@ export default class ApiBase {
           data: encrypt,
           method,
           headers: {
-            token: `${this.options.token}`,
-            userid: this.options.userId
+            [TOKEN]: options?.[TOKEN] ?? this.options.token,
+            [USER_ID]: options?.[USER_ID] ?? this.options.userId
             // version: this.options.version.toString()
           }
         }),
@@ -110,8 +113,8 @@ export default class ApiBase {
     return this.fetch<T>({ url, data, method: 'POST', options })
   }
 
-  protected get = async <T = any>(url = '', search: any = {}, options?: RequestOptions) => {
-    return this.fetch<T>({ url, data: search, method: 'GET', options })
+  protected get = async <T = any>(url = '', data: any = {}, options?: RequestOptions) => {
+    return this.fetch<T>({ url, data, method: 'GET', options })
   }
 
   protected put = async <T = any>(url = '', data: any = {}, options?: RequestOptions) => {
