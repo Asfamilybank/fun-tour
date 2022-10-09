@@ -1,8 +1,8 @@
-import Avatar from 'components/Avatar'
+import Avatar from './component/avatar'
 import Info from './component/info'
 
-export const PATH_USER_PROFILE_INFO = '/info'
-export const PATH_USER_PROFILE_AVATAR = '/avatar'
+export const PATH_USER_PROFILE_INFO = 'info'
+export const PATH_USER_PROFILE_AVATAR = 'avatar'
 
 type IRouteConfigList = {
   path: string

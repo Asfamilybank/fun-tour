@@ -39,7 +39,7 @@ const UserProfile = () => {
       <label tabIndex={0} className="btn btn-circle">
         <Avatar src={userInfoValue?.image} name={userInfoValue?.name} />
       </label>
-      <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
+      <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow-sm">
         <div className="text-base-content px-4 text-base font-semibold">{userInfoValue?.name}</div>
         <li>
           <a className="justify-between" onClick={onUserSpace}>

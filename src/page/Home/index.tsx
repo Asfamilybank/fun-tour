@@ -18,7 +18,7 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-base-100 h-full rounded-lg p-4 shadow">
+    <div className="bg-base-100 h-full rounded-lg p-4 shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <Controller
         control={control}

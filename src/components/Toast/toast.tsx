@@ -10,13 +10,7 @@ export interface IToastComponentProps {
 
 const AUTO_HIDE_DURATION = 5 * 1000
 
-const ToastComponent = ({
-  visible,
-  message,
-  severity,
-  onClose,
-  afterClose
-}: IToastComponentProps) => {
+const ToastComponent = ({ visible, message, severity, onClose, afterClose }: IToastComponentProps) => {
   const handleClose = () => {
     onClose && onClose()
     setTimeout(() => {
@@ -59,11 +53,7 @@ const ToastComponent = ({
   }
 
   return (
-    <div
-      className={`alert w-max shadow-lg ${handleSeverity()} ${
-        visible ? 'slide-in-top' : 'slide-out-top'
-      }`}
-    >
+    <div className={`alert shadow-sm-lg w-max ${handleSeverity()} ${visible ? 'slide-in-top' : 'slide-out-top'}`}>
       {handleIcon()}
       <span className="inline-block">{message}</span>
     </div>

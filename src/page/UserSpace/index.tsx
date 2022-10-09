@@ -16,7 +16,7 @@ const UserSpace = () => {
   return (
     <div className="">
       <div
-        className="flex h-48 flex-col justify-between rounded-lg bg-cover bg-no-repeat py-6 px-8 shadow"
+        className="flex h-48 flex-col justify-between rounded-lg bg-cover bg-no-repeat py-6 px-8 shadow-sm"
         style={{
           backgroundImage: `url(${UserProfileBg})`,
           backgroundPosition: 'center'

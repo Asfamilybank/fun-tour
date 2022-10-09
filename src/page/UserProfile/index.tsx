@@ -6,27 +6,23 @@ const UserProfile = () => {
   const { pathname } = useLocation()
 
   return (
-    <div className="flex grow space-x-4">
-      <ul className="menu bg-base-100 rounded-box w-56 shrink-0">
+    <div className="flex h-full grow space-x-2">
+      <ul className="menu bg-base-100 rounded-box w-48 shrink-0 self-start shadow-sm">
         <div className="h-4" />
-        <li className={pathname === ROUTE_USER_PROFILE + '/info' ? 'bordered' : ''}>
-          <Link to={ROUTE_USER_PROFILE + '/info'}>个人信息</Link>
-        </li>
-        <li>
-          <Link to={ROUTE_USER_PROFILE + '/info'}>个人信息</Link>
-        </li>
-        <li>
-          <Link to={ROUTE_USER_PROFILE + '/info'}>个人信息</Link>
-        </li>
+        {RouteConfigList.map((config) => (
+          <li key={config.path} className={pathname === ROUTE_USER_PROFILE + '/' + config.path ? 'bordered' : ''}>
+            <Link to={config.path}>{config.title}</Link>
+          </li>
+        ))}
         <div className="h-4" />
       </ul>
-      <div className="grow">
+      <div className="bg-base-100 rounded-box grow p-4 shadow-sm">
         <Outlet />
       </div>
     </div>
   )
 }
 
-export const UserProfileRouter = RouteConfigList.map((config) => <Route key={config.path} path={ROUTE_USER_PROFILE + config.path} element={config.component} />)
+export const UserProfileRouter = RouteConfigList.map((config) => <Route key={config.path} path={config.path} element={config.component} />)
 
 export default UserProfile
