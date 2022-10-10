@@ -18,6 +18,10 @@ export default class PublicApi extends ApiBase {
     })
   }
 
+  user(params: Params.IUser) {
+    return this.put('/user', params, { loading: true })
+  }
+
   uploadFileV2(params: Params.IUploadFileV2) {
     return this.post<Responses.IUploadFileV2>('/file/images/v2', params)
   }

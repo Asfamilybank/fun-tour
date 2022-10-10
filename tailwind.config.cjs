@@ -40,6 +40,10 @@ module.exports = {
         //   DEFAULT: '#D2D5F6',
         //   error: '#F8DBDB'
         // }
+      },
+      zIndex: {
+        navbar: 100,
+        toast: 1000
       }
     },
     variants: {

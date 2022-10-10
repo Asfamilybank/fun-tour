@@ -29,3 +29,5 @@ export const isLightOrDark = (hex: string) => {
 
   return o <= 180 ? 'dark' : 'light'
 }
+
+export const isIterable = (target: any) => typeof target === 'object' && target != null && typeof target[Symbol.iterator] === 'function'

@@ -9,13 +9,12 @@ const TOAST_CONTAINER_ID = 'toast-container'
 const createToastContainer = () => {
   const div = document.createElement('div')
   div.id = TOAST_CONTAINER_ID
-  div.className = 'toast toast-center toast-top'
+  div.className = 'toast toast-center toast-top z-toast'
   document.body.appendChild(div)
   return div
 }
 
-const getToastContainer = () =>
-  document.getElementById(TOAST_CONTAINER_ID) ?? createToastContainer()
+const getToastContainer = () => document.getElementById(TOAST_CONTAINER_ID) ?? createToastContainer()
 
 const show = (p?: IToastComponentProps) => {
   const props = Object.assign({}, p)
