@@ -1,3 +1,4 @@
+import React from 'react'
 import { IComponentSize, IInput } from 'components/types'
 
 const INPUT_SIZE_MAP: Record<IComponentSize, string> = {

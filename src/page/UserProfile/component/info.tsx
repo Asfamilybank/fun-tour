@@ -10,14 +10,14 @@ import { userInfoState } from 'store/user'
 type IForm = {
   name: string
   sex: string
-  age: number
+  birthday: string
   sign: string
 }
 const Info = () => {
   const userInfo = useRecoilValue(userInfoState)
 
   const { control, handleSubmit } = useForm<IForm>({
-    defaultValues: { sex: userInfo?.sex || '0', age: userInfo?.age, sign: userInfo?.sign, name: userInfo?.name }
+    defaultValues: { sex: userInfo?.sex || '0', birthday: userInfo?.birthday, sign: userInfo?.sign, name: userInfo?.name }
   })
   const [AnimateForm] = useAutoAnimate<HTMLLabelElement>()
 
@@ -52,19 +52,6 @@ const Info = () => {
       />
       <Controller
         control={control}
-        name="age"
-        render={({ field, fieldState: { error } }) => (
-          <div className="form-control">
-            <label className="label text-xs">年龄</label>
-            <Input {...field} isError={!!error} size="small" placeholder="请输入年龄" />
-            <label className="label" ref={AnimateForm}>
-              {error && <span className="label-text-alt text-error">{error.message}</span>}
-            </label>
-          </div>
-        )}
-      />
-      <Controller
-        control={control}
         name="sex"
         render={({ field, fieldState: { error } }) => (
           <div className="form-control">
@@ -80,6 +67,19 @@ const Info = () => {
                 女
               </Radio>
             </Radio.Group>
+            <label className="label" ref={AnimateForm}>
+              {error && <span className="label-text-alt text-error">{error.message}</span>}
+            </label>
+          </div>
+        )}
+      />
+      <Controller
+        control={control}
+        name="birthday"
+        render={({ field, fieldState: { error } }) => (
+          <div className="form-control">
+            <label className="label text-xs">出生日期</label>
+            <Input {...field} isError={!!error} size="small" placeholder="请输入年龄" type="date" />
             <label className="label" ref={AnimateForm}>
               {error && <span className="label-text-alt text-error">{error.message}</span>}
             </label>

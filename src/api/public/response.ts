@@ -19,7 +19,7 @@ export interface IGetInfo {
   name: string
   prohibitReason: string
   id: number
-  age: number
+  birthday: string
   email: string
   isProhibit: string
 }
