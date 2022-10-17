@@ -29,5 +29,5 @@ export interface IRegister {
 }
 
 export interface IUploadFileV2 {
-  url: string
+  images: string[]
 }

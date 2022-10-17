@@ -53,6 +53,7 @@ export type RequestOptions = {
   mock?: boolean
   [TOKEN]?: string
   [USER_ID]?: string
+  onUploadProgress?: (progress: number, ev: ProgressEvent) => void
 }
 
 const defaultRequestOptions: RequestOptions = {
@@ -98,6 +99,11 @@ export default class ApiBase {
             [TOKEN]: options?.[TOKEN] ?? this.options.token,
             [USER_ID]: options?.[USER_ID] ?? this.options.userId
             // version: this.options.version.toString()
+          },
+          onUploadProgress: (progressEvent: ProgressEvent) => {
+            if (progressEvent.lengthComputable) {
+              options?.onUploadProgress?.(progressEvent.loaded / progressEvent.total, progressEvent)
+            }
           }
         }),
       this.options?.onError

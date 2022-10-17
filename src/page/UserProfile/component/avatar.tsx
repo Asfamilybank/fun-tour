@@ -1,5 +1,14 @@
+import ImageUpload from 'components/ImageUpload'
+import { useState } from 'react'
+
 const Avatar = () => {
-  return <div className="h-[2000px]">avatar</div>
+  const [value, setValue] = useState()
+
+  return (
+    <div className="">
+      <ImageUpload accept=".jpg,.jpeg,.png" />
+    </div>
+  )
 }
 
 export default Avatar

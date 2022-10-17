@@ -22,7 +22,7 @@ export default class PublicApi extends ApiBase {
     return this.put('/user', params, { loading: true })
   }
 
-  uploadFileV2(params: Params.IUploadFileV2) {
-    return this.post<Responses.IUploadFileV2>('/file/images/v2', params)
+  uploadFileV2(params: Params.IUploadFileV2, onUploadProgress?: (progress: number, ev: ProgressEvent<EventTarget>) => void) {
+    return this.post<Responses.IUploadFileV2>('/file/images/v2', params, { onUploadProgress })
   }
 }

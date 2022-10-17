@@ -81,7 +81,7 @@ export const Avatar = ({
 
   return (
     <div
-      className={`avatar h-12 rounded-full ${isLightOrDark(defaultBackground) === 'light' ? 'text-neutral' : 'text-base-100'}`}
+      className={`avatar h-12 rounded-full ${isLightOrDark(defaultBackground) === 'light' ? 'text-primary-content' : 'text-primary-content'}`}
       style={{
         backgroundColor: `${defaultBackground}`
       }}

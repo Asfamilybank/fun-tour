@@ -7,16 +7,16 @@ const UserProfile = () => {
 
   return (
     <div className="flex h-full grow space-x-2">
-      <ul className="menu bg-base-100 rounded-box w-48 shrink-0 self-start shadow-sm">
+      <ul className="menu bg-base-100 rounded-box sticky top-20 w-48 shrink-0 self-start">
         <div className="h-4" />
         {RouteConfigList.map((config) => (
-          <li key={config.path} className={pathname === ROUTE_USER_PROFILE + '/' + config.path ? 'bordered' : ''}>
+          <li key={config.path} className={pathname === ROUTE_USER_PROFILE + '/' + config.path ? 'bordered text-primary' : ''}>
             <Link to={config.path}>{config.title}</Link>
           </li>
         ))}
         <div className="h-4" />
       </ul>
-      <div className="bg-base-100 rounded-box grow p-4 shadow-sm">
+      <div className="bg-base-100 rounded-box grow p-4">
         <Outlet />
       </div>
     </div>

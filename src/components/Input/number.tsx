@@ -1,5 +1,5 @@
-const Number = () => {
+const NumberInput = () => {
   return <></>
 }
 
-export default Number
+export default NumberInput

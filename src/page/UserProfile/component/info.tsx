@@ -99,7 +99,7 @@ const Info = () => {
           </div>
         )}
       />
-      <button type="submit" className="btn btn-primary btn-block btn-sm mt-10">
+      <button type="submit" className="btn btn-primary btn-block btn-sm mt-4">
         保存
       </button>
     </form>

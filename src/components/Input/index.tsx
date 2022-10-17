@@ -1,6 +1,6 @@
 import InputComponent from './input'
-import Number from './number'
+import NumberInput from './number'
 
-const Input = Object.assign(InputComponent, { Number })
+const Input = Object.assign(InputComponent, { NumberInput })
 
 export default Input
