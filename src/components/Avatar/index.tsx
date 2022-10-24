@@ -32,11 +32,13 @@ const defaultColors = [
 export const Avatar = ({
   name = '',
   src,
+  className,
   backgroundColor,
   backgroundColors
 }: {
   name?: string
   src?: string
+  className?: string
   backgroundColor?: string
   backgroundColors?: string[]
 }) => {
@@ -80,14 +82,19 @@ export const Avatar = ({
   }
 
   return (
-    <div
-      className={`avatar h-12 rounded-full ${isLightOrDark(defaultBackground) === 'light' ? 'text-primary-content' : 'text-primary-content'}`}
-      style={{
-        backgroundColor: `${defaultBackground}`
-      }}
-      aria-label={name}
-    >
-      {src ? <img src={src} /> : <div className="whitespace-nowrap text-center text-xl leading-[3rem]">{initials}</div>}
+    <div className={`avatar ${isLightOrDark(defaultBackground) === 'light' ? 'text-primary-content' : 'text-primary-content'}`} aria-label={name}>
+      {src ? (
+        <img src={src} className={`h-12 rounded-full ${className ?? ''}`} />
+      ) : (
+        <div
+          className={`h-12 whitespace-nowrap rounded-full text-center text-xl leading-[3rem] ${className ?? ''}`}
+          style={{
+            backgroundColor: `${defaultBackground}`
+          }}
+        >
+          {initials}
+        </div>
+      )}
     </div>
   )
 }

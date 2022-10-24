@@ -3,15 +3,14 @@ import { RadialProgress } from 'components/Progress'
 import Toast from 'components/Toast'
 import { IconMathPlus } from 'icons'
 import { useState } from 'react'
-import { sleep } from 'utils'
 
 const ImageUpload = ({ accept, onChange }: { accept?: string; onChange?: (value: string) => void }) => {
   const [value, setValue] = useState<string>()
   const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    await sleep(1000000)
     const onError = (err: string) => {
       Toast.error(err)
       event.target.value = ''
@@ -25,7 +24,9 @@ const ImageUpload = ({ accept, onChange }: { accept?: string; onChange?: (value:
     const formData = new FormData()
     formData.append('images', fileList[0])
 
-    const result = await publicApi.uploadFileV2(formData)
+    const result = await publicApi.uploadFileV2(formData, function (progress: number) {
+      setProgress(progress)
+    })
     if (!result.success) {
       onError('文件上传失败')
       return
@@ -43,16 +44,18 @@ const ImageUpload = ({ accept, onChange }: { accept?: string; onChange?: (value:
       }`}
     >
       <input type="file" className="hidden" accept={accept} onChange={onFileChange} disabled={loading} />
-      {value ? (
-        <img src={value} className="" />
-      ) : loading ? (
-        <RadialProgress />
-      ) : (
-        <div className="flex h-full flex-col items-center justify-center text-sm">
-          <IconMathPlus />
-          点击上传
-        </div>
-      )}
+      <div className="flex h-full flex-col items-center justify-center text-sm">
+        {value ? (
+          <img src={value} className="" />
+        ) : loading ? (
+          <RadialProgress value={progress} />
+        ) : (
+          <>
+            <IconMathPlus />
+            点击上传
+          </>
+        )}
+      </div>
     </label>
   )
 }

@@ -1,7 +1,6 @@
 import Avatar from 'components/Avatar'
-import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { ROUTE_USER_PROFILE, ROUTE_USER_SPACE } from 'router/path'
+import { ROUTE_USER_PROFILE_INFO, ROUTE_USER_SPACE } from 'router/path'
 import { logout } from 'router/utils'
 import { userInfoState } from 'store/user'
 import Swal from 'sweetalert2'
@@ -10,7 +9,6 @@ import withReactContent from 'sweetalert2-react-content'
 const UserProfile = () => {
   const userInfoValue = useRecoilValue(userInfoState)
   const dialog = withReactContent(Swal)
-  const navigate = useNavigate()
 
   const onLogout = async () => {
     const confirm = await dialog.fire({
@@ -26,28 +24,20 @@ const UserProfile = () => {
     }
   }
 
-  const onUserSpace = () => {
-    navigate(ROUTE_USER_SPACE)
-  }
-
-  const onUserProfile = () => {
-    navigate(ROUTE_USER_PROFILE)
-  }
-
   return (
     <div className="dropdown dropdown-end">
       <label tabIndex={0} className="btn btn-circle">
-        <Avatar src={userInfoValue?.image} name={userInfoValue?.name} />
+        <Avatar src={userInfoValue?.icon} name={userInfoValue?.name} />
       </label>
       <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow-sm">
         <div className="text-base-content px-4 text-base font-semibold">{userInfoValue?.name}</div>
         <li>
-          <a className="justify-between" onClick={onUserSpace}>
+          <a className="justify-between" href={ROUTE_USER_SPACE}>
             个人空间
           </a>
         </li>
         <li>
-          <a className="justify-between" onClick={onUserProfile}>
+          <a className="justify-between" href={ROUTE_USER_PROFILE_INFO}>
             设置
           </a>
         </li>

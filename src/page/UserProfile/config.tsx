@@ -1,8 +1,6 @@
-import Avatar from './component/avatar'
+import { ROUTE_USER_PROFILE_AVATAR, ROUTE_USER_PROFILE_INFO } from 'router/path'
+import Avatar from './component/change-avatar'
 import Info from './component/info'
-
-export const PATH_USER_PROFILE_INFO = 'info'
-export const PATH_USER_PROFILE_AVATAR = 'avatar'
 
 type IRouteConfigList = {
   path: string
@@ -12,12 +10,12 @@ type IRouteConfigList = {
 
 export const RouteConfigList: IRouteConfigList = [
   {
-    path: PATH_USER_PROFILE_INFO,
+    path: ROUTE_USER_PROFILE_INFO,
     title: '个人信息',
     component: <Info />
   },
   {
-    path: PATH_USER_PROFILE_AVATAR,
+    path: ROUTE_USER_PROFILE_AVATAR,
     title: '头像',
     component: <Avatar />
   }

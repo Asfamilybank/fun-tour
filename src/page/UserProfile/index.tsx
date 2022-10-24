@@ -1,5 +1,4 @@
 import { Link, Outlet, Route, useLocation } from 'react-router-dom'
-import { ROUTE_USER_PROFILE } from 'router/path'
 import { RouteConfigList } from './config'
 
 const UserProfile = () => {
@@ -10,7 +9,7 @@ const UserProfile = () => {
       <ul className="menu bg-base-100 rounded-box sticky top-20 w-48 shrink-0 self-start">
         <div className="h-4" />
         {RouteConfigList.map((config) => (
-          <li key={config.path} className={pathname === ROUTE_USER_PROFILE + '/' + config.path ? 'bordered text-primary' : ''}>
+          <li key={config.path} className={pathname === config.path ? 'bordered text-primary' : ''}>
             <Link to={config.path}>{config.title}</Link>
           </li>
         ))}

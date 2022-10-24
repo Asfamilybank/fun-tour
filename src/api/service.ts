@@ -102,7 +102,7 @@ export default class ApiBase {
           },
           onUploadProgress: (progressEvent: ProgressEvent) => {
             if (progressEvent.lengthComputable) {
-              options?.onUploadProgress?.(progressEvent.loaded / progressEvent.total, progressEvent)
+              options?.onUploadProgress?.(Math.floor((progressEvent.loaded / progressEvent.total) * 100), progressEvent)
             }
           }
         }),

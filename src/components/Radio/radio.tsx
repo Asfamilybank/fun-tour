@@ -15,6 +15,7 @@ const RADIO_LABEL_SIZE_MAP: Record<IComponentSize, string> = {
 const RadioComponent = ({
   size = 'medium',
   value,
+  isError,
   children,
   ...props
 }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> & {

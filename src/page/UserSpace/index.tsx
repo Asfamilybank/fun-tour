@@ -24,7 +24,7 @@ const UserSpace = () => {
       >
         <div></div>
         <div className="flex items-center">
-          <Avatar name={userState?.name} src={userState?.image} />
+          <Avatar name={userState?.name} src={userState?.icon} />
           <div className="mx-4 flex grow flex-col justify-between self-stretch">
             <div className="text-base-100 text-base font-semibold">{userState?.name}</div>
             <div className="text-base-200">{userState?.sign}</div>
