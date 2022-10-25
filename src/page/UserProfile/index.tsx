@@ -10,7 +10,10 @@ const UserProfile = () => {
         <div className="h-4" />
         {RouteConfigList.map((config) => (
           <li key={config.path} className={pathname === config.path ? 'bordered text-primary' : ''}>
-            <Link to={config.path}>{config.title}</Link>
+            <Link to={config.path}>
+              <pre>{config.icon}</pre>
+              {config.title}
+            </Link>
           </li>
         ))}
         <div className="h-4" />

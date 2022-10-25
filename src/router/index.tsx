@@ -6,6 +6,7 @@ import NoFind from 'page/NoFind'
 import Register from 'page/Register'
 import UserProfile, { UserProfileRouter } from 'page/UserProfile'
 import UserSpace from 'page/UserSpace'
+import Welcome from 'page/Welcome'
 import { Route, Routes } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
 import useInit from './hooks'
@@ -24,7 +25,7 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route path={ROUTE_ROOT} element={<></>} />
+      <Route path={ROUTE_ROOT} element={<Welcome />} />
       <Route path={ROUTE_LOGIN} element={<Login />} />
       <Route path={ROUTE_REGISTER} element={<Register />} />
       <Route element={<Layout />}>

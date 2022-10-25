@@ -27,6 +27,7 @@
     "@formkit/auto-animate": "1.0.0-beta.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.4",
+    "lax.js": "^2.0.3",
     "react": "^18.2.0",
     "react-activation": "^0.11.2",
     "react-dom": "^18.2.0",

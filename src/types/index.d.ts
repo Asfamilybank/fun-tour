@@ -3,3 +3,8 @@ declare module 'assets/svg/*.svg' {
   const SVG: React.VFC<React.SVGProps<SVGSVGElement>>
   export default SVG
 }
+
+declare module 'lax.js' {
+  const Lax: any
+  export default Lax
+}

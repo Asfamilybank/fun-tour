@@ -1,4 +1,3 @@
-import ThemeButton from './themeButton'
 import UserProfile from './userProfile'
 
 const NavBar = () => {
@@ -12,7 +11,6 @@ const NavBar = () => {
       <div className="flex-none space-x-2">
         <UserProfile />
         <Other />
-        <ThemeButton />
       </div>
     </nav>
   )

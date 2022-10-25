@@ -25,6 +25,7 @@ specifiers:
   eslint-plugin-tailwindcss: ^3.6.0
   husky: ^8.0.1
   jsdom: ^19.0.0
+  lax.js: ^2.0.3
   lint-staged: ^12.5.0
   postcss: ^8.4.14
   prettier: ^2.7.1
@@ -54,6 +55,7 @@ dependencies:
   '@formkit/auto-animate': 1.0.0-beta.1_react@18.2.0
   axios: 0.27.2
   dayjs: 1.11.4
+  lax.js: 2.0.3
   react: 18.2.0
   react-activation: 0.11.2_sh5qlbywuemxd2y3xkrw2y2kr4
   react-dom: 18.2.0_react@18.2.0
@@ -3711,6 +3713,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
     optional: true
+
+  /lax.js/2.0.3:
+    resolution: {integrity: sha512-q2q0jVRwruvFdQZeeE3OwIszRIkey6CItPmB+BcTUFPgHd2R8LI+bntAI7d2GJEjheu79mzQ++MROkODuZoXlA==}
+    dev: false
 
   /lazy-cache/1.0.4:
     resolution: {integrity: sha512-RE2g0b5VGZsOCFOCgP7omTRYFqydmZkBwl5oNnQ1lDYC57uyO9KqNnNVxT7COSHTxrRCWVcAVOcbjk+tvh/rgQ==}

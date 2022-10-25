@@ -21,7 +21,6 @@ const useInit = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
   const setUserInfo = useSetRecoilState(userInfoState)
-  // const setUserState = useSetRecoilState(userState)
   const { pathname } = useLocation()
 
   const init = async () => {
@@ -63,7 +62,7 @@ const useInit = () => {
   const afterInitApiOption = async () => {
     const res = await publicApi.getInfo()
     if (res.success) {
-      setUserInfo((v) => ({ ...v, ...res.data }))
+      setUserInfo(res.data)
     }
   }
 
