@@ -23,7 +23,7 @@ try {
   }
   console.log('\nWill commit files:\n  ' + stagedList.join('\n  '))
 
-  const willList = fileList.filter((f) => f.isStaged && f.staged !== 'D').map((m) => m.path)
+  const willList = fileList.filter((f) => f.isStaged && f.staged !== 'D' && f.staged !== 'R').map((m) => m.path)
 
   const lintList = willList
     .filter((f) => /^.*\.(js|jsx|ts|tsx)$/.test(f))
