@@ -27,8 +27,10 @@ const Info = () => {
       userId: userInfo!.userId,
       ...data
     })
+
     if (!res.success) {
       Toast.error(res.errMsg)
+
       return
     }
     Toast.success('登录成功')

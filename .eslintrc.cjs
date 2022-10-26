@@ -44,6 +44,15 @@ module.exports = {
     'tailwindcss/migration-from-tailwind-2': 'warn',
     'tailwindcss/no-arbitrary-value': 'off',
     'tailwindcss/no-custom-classname': 'off',
-    'tailwindcss/no-contradicting-classname': 'error'
+    'tailwindcss/no-contradicting-classname': 'error',
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+      { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
+      { blankLine: 'always', prev: 'directive', next: '*' },
+      { blankLine: 'any', prev: 'directive', next: 'directive' },
+      { blankLine: 'always', prev: ['case', 'default'], next: '*' }
+    ]
   }
 }

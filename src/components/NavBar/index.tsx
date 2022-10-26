@@ -10,7 +10,7 @@ const NavBar = () => {
       </div>
       <div className="flex-none space-x-2">
         <UserProfile />
-        <Other />
+        {/* <Other /> */}
       </div>
     </nav>
   )

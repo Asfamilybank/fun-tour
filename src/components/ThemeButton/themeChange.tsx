@@ -1,5 +1,6 @@
 import { themeChange } from 'theme-change'
 import React from 'react'
+import { useGetCurrentTheme } from 'utils/theme-hook'
 
 const ThemeChangeButton = () => {
   const themes = [
@@ -33,6 +34,7 @@ const ThemeChangeButton = () => {
     'coffee',
     'winter'
   ]
+  const currentTheme = useGetCurrentTheme()
 
   React.useEffect(() => {
     themeChange(false)
@@ -40,7 +42,7 @@ const ThemeChangeButton = () => {
 
   return (
     <div title="Change Theme" className={`dropdown dropdown-end`}>
-      <div tabIndex={0} className={`btn btn-ghost gap-1 normal-case`}>
+      <div tabIndex={0} className={`btn gap-1 normal-case`}>
         <svg
           width="20"
           height="20"
@@ -56,7 +58,7 @@ const ThemeChangeButton = () => {
             d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
           />
         </svg>
-        <span className="">更改主题</span>
+        <span className="">{currentTheme}</span>
         <svg
           width="12px"
           height="12px"
@@ -93,7 +95,7 @@ const ThemeChangeButton = () => {
               </div>
             </div>
           ))}
-          <a className="outline-base-content overflow-hidden rounded-lg" href="/theme-generator/">
+          {/* <a className="outline-base-content overflow-hidden rounded-lg" href="/theme-generator/">
             <div className="hover:bg-neutral hover:text-neutral-content w-full cursor-pointer font-sans">
               <div className="flex gap-2 p-3">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current" viewBox="0 0 512 512">
@@ -111,7 +113,7 @@ const ThemeChangeButton = () => {
                 <div className="grow text-sm font-bold">Make your theme!</div>
               </div>
             </div>
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

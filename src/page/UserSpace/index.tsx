@@ -11,8 +11,6 @@ const UserSpace = () => {
 
   const { data } = useData(() => sightApi.collect({ userId: userState?.userId ?? '' }))
 
-  console.log(data)
-
   return (
     <div className="">
       <div
