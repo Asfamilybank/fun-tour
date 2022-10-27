@@ -1,23 +1,36 @@
-import { Link, Outlet, Route, useLocation } from 'react-router-dom'
-import { RouteConfigList } from './config'
+import Menu from 'Components/Menu'
+import { IconUser, IconProfile, IconDetailsMore } from 'Icons'
+import { Outlet, Route } from 'react-router-dom'
+import { ROUTE_USER_PROFILE_INFO, ROUTE_USER_PROFILE_AVATAR, ROUTE_USER_PROFILE_OTHER } from 'Router/path'
+import ChangeAvatar from './component/change-avatar'
+import Info from './component/info'
+import OtherSettings from './component/other-setting'
+
+const configs = [
+  {
+    path: ROUTE_USER_PROFILE_INFO,
+    icon: <IconUser />,
+    title: '个人信息',
+    component: <Info />
+  },
+  {
+    path: ROUTE_USER_PROFILE_AVATAR,
+    icon: <IconProfile />,
+    title: '头像',
+    component: <ChangeAvatar />
+  },
+  {
+    path: ROUTE_USER_PROFILE_OTHER,
+    icon: <IconDetailsMore />,
+    title: '其他',
+    component: <OtherSettings />
+  }
+]
 
 const UserProfile = () => {
-  const { pathname } = useLocation()
-
   return (
-    <div className="flex h-full grow space-x-2">
-      <ul className="menu bg-base-100 rounded-box sticky top-20 w-48 shrink-0 self-start">
-        <div className="h-4" />
-        {RouteConfigList.map((config) => (
-          <li key={config.path} className={pathname === config.path ? 'bordered text-primary' : ''}>
-            <Link to={config.path}>
-              <pre>{config.icon}</pre>
-              {config.title}
-            </Link>
-          </li>
-        ))}
-        <div className="h-4" />
-      </ul>
+    <div className="rounded-box flex h-full space-x-4">
+      <Menu configs={configs} />
       <div className="bg-base-100 rounded-box grow p-4">
         <Outlet />
       </div>
@@ -25,6 +38,6 @@ const UserProfile = () => {
   )
 }
 
-export const UserProfileRouter = RouteConfigList.map((config) => <Route key={config.path} path={config.path} element={config.component} />)
+export const UserProfileRouter = configs.map((config) => <Route key={config.path} path={config.path} element={config.component} />)
 
 export default UserProfile

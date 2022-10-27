@@ -27,7 +27,7 @@ const UserProfile = () => {
 
   return (
     <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-circle">
+      <label tabIndex={0} className="btn btn-circle border-0">
         <Avatar src={userInfoValue?.icon} name={userInfoValue?.name} />
       </label>
       <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow-sm">

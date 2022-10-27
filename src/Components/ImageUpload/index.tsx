@@ -44,7 +44,7 @@ const ImageUpload = ({ accept, onChange }: { accept?: string; onChange?: (value:
 
   return (
     <label
-      className={`inline-block h-28 w-28 cursor-pointer rounded border border-dashed hover:transition-[border\\-color] ${
+      className={`rounded-box inline-block h-28 w-28 cursor-pointer border border-dashed hover:transition-[border\\-color] ${
         loading ? 'cursor-wait' : 'hover:border-primary'
       }`}
     >

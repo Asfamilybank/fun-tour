@@ -14,7 +14,7 @@ const Desktop = ({
   isSticky?: boolean
 }) => {
   return (
-    <div className="bg-base-200 w-full">
+    <div className="bg-primary/10 w-full">
       <div className="relative mx-auto flex min-h-screen w-full flex-col space-y-4 p-4 lg:max-w-screen-lg">
         <header className={`z-navbar shrink-0 ${isSticky ? 'sticky top-0' : ''}`}>{header}</header>
         <div className="flex grow space-x-4">

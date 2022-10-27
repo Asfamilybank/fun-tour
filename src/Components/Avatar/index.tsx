@@ -86,7 +86,7 @@ export const Avatar = ({
   }
 
   return (
-    <div className={`avatar ${isLightOrDark(defaultBackground) === 'light' ? 'text-primary-content' : 'text-primary-content'}`} aria-label={name}>
+    <div className={`avatar h-full w-full ${isLightOrDark(defaultBackground) === 'light' ? 'text-primary-content' : 'text-primary-content'}`} aria-label={name}>
       {src ? (
         <img src={src} className={`h-12 rounded-full ${className ?? ''}`} />
       ) : (

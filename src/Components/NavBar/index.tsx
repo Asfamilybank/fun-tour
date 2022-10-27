@@ -3,13 +3,13 @@ import UserProfile from './user-profile'
 
 const NavBar = () => {
   return (
-    <nav className="navbar bg-base-100 rounded-lg shadow-sm">
+    <nav className="navbar bg-base-100 rounded-box shadow-sm">
       <div className="grow">
         <Logo isShowName />
       </div>
       <div className="flex-none space-x-2">
         <UserProfile />
-        {/* <Other /> */}
+        <Other />
       </div>
     </nav>
   )

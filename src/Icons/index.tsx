@@ -12,6 +12,9 @@ import IconMathPlus from 'Assets/svg/math-plus.svg'
 import IconNotes from 'Assets/svg/notes.svg'
 import IconUser from 'Assets/svg/user.svg'
 import IconDetailsMore from 'Assets/svg/details-more.svg'
+import IconMenu from 'Assets/svg/menu.svg'
+import IconMenuLeft from 'Assets/svg/menu-left.svg'
+import IconMenuRight from 'Assets/svg/menu-right.svg'
 
 export {
   IconLogo,
@@ -27,5 +30,8 @@ export {
   IconMathPlus,
   IconNotes,
   IconUser,
-  IconDetailsMore
+  IconDetailsMore,
+  IconMenu,
+  IconMenuLeft,
+  IconMenuRight
 }
