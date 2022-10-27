@@ -1,3 +1,4 @@
+import IconLogo from 'Assets/svg/logo.svg'
 import IconInfo from 'Assets/svg/info.svg'
 import IconCheck from 'Assets/svg/check.svg'
 import IconDanger from 'Assets/svg/danger.svg'
@@ -12,4 +13,19 @@ import IconNotes from 'Assets/svg/notes.svg'
 import IconUser from 'Assets/svg/user.svg'
 import IconDetailsMore from 'Assets/svg/details-more.svg'
 
-export { IconInfo, IconCheck, IconDanger, IconBell, IconClose, IconLock, IconProfile, IconImage, IconHeart, IconMathPlus, IconNotes, IconUser, IconDetailsMore }
+export {
+  IconLogo,
+  IconInfo,
+  IconCheck,
+  IconDanger,
+  IconBell,
+  IconClose,
+  IconLock,
+  IconProfile,
+  IconImage,
+  IconHeart,
+  IconMathPlus,
+  IconNotes,
+  IconUser,
+  IconDetailsMore
+}

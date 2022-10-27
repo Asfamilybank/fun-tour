@@ -1,12 +1,11 @@
+import Logo from 'Components/Logo'
 import UserProfile from './user-profile'
 
 const NavBar = () => {
   return (
     <nav className="navbar bg-base-100 rounded-lg shadow-sm">
       <div className="grow">
-        <a className="btn btn-ghost text-xl normal-case" href="/home">
-          FunTour
-        </a>
+        <Logo isShowName />
       </div>
       <div className="flex-none space-x-2">
         <UserProfile />

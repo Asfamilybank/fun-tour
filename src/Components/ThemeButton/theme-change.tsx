@@ -42,7 +42,7 @@ const ThemeChangeButton = () => {
 
   return (
     <div title="Change Theme" className={`dropdown dropdown-end`}>
-      <div tabIndex={0} className={`btn gap-1 normal-case`}>
+      <div tabIndex={0} className={`btn btn-ghost gap-1 normal-case`}>
         <svg
           width="20"
           height="20"
