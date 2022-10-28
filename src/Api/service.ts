@@ -1,6 +1,5 @@
 import { AxiosError, AxiosInstance, Method } from 'axios'
 import { TOKEN, USER_ID } from 'Router/utils'
-import { sleep } from 'Utils'
 
 import { wrapperSend, createRequest } from './request'
 import { FailResponse } from './response'
@@ -61,6 +60,8 @@ const defaultRequestOptions: RequestOptions = {
   encrypt: true,
   mock: false
 }
+
+export type IPaginationParams = { [key: string]: any; page?: number; pageSize?: number }
 
 export default class ApiBase {
   protected request: AxiosInstance
@@ -132,24 +133,7 @@ export default class ApiBase {
     return this.fetch<T>({ url, data, method: 'DELETE', options })
   }
 
-  protected upload = async <T = any>(url = '', body: any = {}, options?: RequestOptions) => {
-    if (!options) {
-      options = defaultRequestOptions
-    }
-    if (options.loading && this.options?.beforeSend) {
-      this.options.beforeSend()
-    }
-    const [res] = await Promise.all([
-      wrapperSend(async () => {
-        return this.request.post(url, body)
-      }, this.options?.onError),
-      sleep(500)
-    ])
-
-    if (options.loading && this.options?.afterSend) {
-      this.options.afterSend()
-    }
-
-    return res as unknown as T
+  protected pagination = async <T = any>(url = '', data: IPaginationParams = { page: 0, pageSize: 10 }, options?: RequestOptions) => {
+    return this.fetch<T>({ url: url, data, method: 'GET', options })
   }
 }
