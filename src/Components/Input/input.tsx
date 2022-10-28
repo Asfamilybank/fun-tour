@@ -7,7 +7,7 @@ const INPUT_SIZE_MAP: Record<IComponentSize, string> = {
   small: 'input-sm',
   mini: 'input-xs'
 }
-const Input = ({ className, size = 'medium', isError = false, ...props }: IInput) => {
+const Input: IInput = ({ className, size = 'medium', isError = false, ...props }) => {
   return <input className={`input input-bordered ${INPUT_SIZE_MAP[size]} ${isError ? 'input-error' : ''} ${className}`} {...props} />
 }
 
