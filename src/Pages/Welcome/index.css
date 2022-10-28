@@ -49,21 +49,21 @@
 }
 
 .letter-l {
-  margin-top: 100px;
-  width: 200px;
-  left: 50vw;
-  margin-left: -75px;
+  margin-top: 47px;
+  right: 50vw;
   position: fixed;
-  left: 50vw;
-  margin-left: -75px;
+  text-align: center;
+  font-size: 96px;
+  line-height: 96px;
 }
 
 .letter-a {
   margin-top: 158px;
   position: fixed;
   left: 50vw;
-  margin-left: -77px;
-  width: 150px;
+  text-align: center;
+  font-size: 96px;
+  line-height: 96px;
 }
 
 .letter-x {

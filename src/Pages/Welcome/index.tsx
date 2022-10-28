@@ -1,12 +1,10 @@
-import LetterLIcon from 'Assets/welcome/l.png'
-import LetterAIcon from 'Assets/welcome/a.png'
-import LetterXIcon from 'Assets/welcome/x.png'
 import DownArrowIcon from 'Assets/welcome/downarrow.png'
 import { ROUTE_HOME } from 'Router/path'
 import lax from 'lax.js'
 
 import './index.css'
 import { useEffect } from 'react'
+import { IconLogo } from 'Icons'
 
 const Welcome = () => {
   useEffect(() => {
@@ -213,10 +211,10 @@ const Welcome = () => {
 
   return (
     <div className="welcome-container">
-      <img src={LetterLIcon} className="letter-l" style={{ opacity: 1 }} />
-      <img src={LetterAIcon} className="letter-a" style={{ opacity: 1 }} />
+      <div className="letter-l">Fun</div>
+      <div className="letter-a">Tour</div>
       <div className="letter-x">
-        <img src={LetterXIcon} />
+        <IconLogo className="inline-block h-full w-full" />
       </div>
 
       <h2 className="scroll-down">scroll down</h2>
