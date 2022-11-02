@@ -1,15 +1,16 @@
-import { IComponentSize } from 'Components/types'
-import { cloneElement } from 'react'
+import { IRadioGroup, IRadioProps } from 'Components/types'
+import React from 'react'
 
-const RadioGroup = ({ name, size, children }: { name?: string; size?: IComponentSize; children?: React.ReactNode }) => {
-  const hasName = !!name
-  let childNode
-  if (hasName && children && typeof children !== 'string' && typeof children !== 'number' && typeof children !== 'boolean') {
-    childNode = cloneElement(children, { name, size })
-  } else {
-    childNode = children
-  }
-  return <div className="space-x-4">{childNode}</div>
+const RadioGroup: IRadioGroup = ({ name, size, children }) => {
+  return (
+    <div className="space-x-4">
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement<IRadioProps>(child as any, { name, size })
+        }
+      })}
+    </div>
+  )
 }
 
 export default RadioGroup

@@ -1,17 +1,35 @@
 import Logo from 'Components/Logo'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 import { ROUTE_CHAT } from 'Router/path'
+import { userInfoState } from 'Store/user'
 import UserProfile from './user-profile'
 
+const useNavBarHook = () => {
+  const userInfo = useRecoilValue(userInfoState)
+  const isLogin = useMemo(() => !!userInfo?.userId, [userInfo?.userId])
+
+  return { isLogin }
+}
+
 const NavBar = () => {
+  const { isLogin } = useNavBarHook()
+
   return (
     <nav className="navbar bg-base-100 rounded-box shadow-sm">
       <div className="grow">
         <Logo isShowName />
       </div>
       <div className="flex-none space-x-2">
-        <UserProfile />
-        <Other />
+        {isLogin ? (
+          <>
+            <UserProfile />
+            <Other />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </nav>
   )
