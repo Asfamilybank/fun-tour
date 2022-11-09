@@ -1,5 +1,5 @@
 import Menu from 'Components/Menu'
-import { IconUser, IconProfile } from 'Icons'
+import { IconComment, IconUserList } from 'Icons'
 import { Route } from 'react-router-dom'
 import { ROUTE_CHAT_FRIEND_LIST, ROUTE_CHAT_MESSAGE } from 'Router/path'
 import FriendList from './component/friend-list'
@@ -8,13 +8,13 @@ import Message from './component/message'
 const configs = [
   {
     path: ROUTE_CHAT_MESSAGE,
-    icon: <IconUser />,
+    icon: <IconComment />,
     title: '消息',
     component: <Message />
   },
   {
     path: ROUTE_CHAT_FRIEND_LIST,
-    icon: <IconProfile />,
+    icon: <IconUserList />,
     title: '好友列表',
     component: <FriendList />
   }

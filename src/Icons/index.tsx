@@ -15,6 +15,8 @@ import IconDetailsMore from 'Assets/svg/details-more.svg'
 import IconMenu from 'Assets/svg/menu.svg'
 import IconMenuLeft from 'Assets/svg/menu-left.svg'
 import IconMenuRight from 'Assets/svg/menu-right.svg'
+import IconComment from 'Assets/svg/comment.svg'
+import IconUserList from 'Assets/svg/user-list.svg'
 
 export {
   IconLogo,
@@ -33,5 +35,7 @@ export {
   IconDetailsMore,
   IconMenu,
   IconMenuLeft,
-  IconMenuRight
+  IconMenuRight,
+  IconComment,
+  IconUserList
 }

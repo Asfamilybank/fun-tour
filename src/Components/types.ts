@@ -12,7 +12,8 @@ export type IComponentShapeMap = Record<IComponentShape, string>
 export type IInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & { size?: IComponentSize; isError?: boolean }
 export type IInput = IComponent<IInputProps>
 
-export type IMenuProps = { direction?: IComponentDirection; configs: { path: string; title: string; icon: React.ReactNode }[] }
+export type IMenuConfig = { path: string; title: string; icon: React.ReactNode }
+export type IMenuProps = { defaultExpend?: boolean; direction?: IComponentDirection; configs: IMenuConfig[] }
 export type IMenu = IComponent<IMenuProps>
 
 export type IRadioProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> & {
