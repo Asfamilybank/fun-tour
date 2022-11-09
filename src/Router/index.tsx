@@ -1,4 +1,6 @@
-import Chat, { ChatRouter } from 'Pages/Chat'
+import Chat from 'Pages/Chat'
+import CommentList from 'Pages/Chat/component/comment-list'
+import Comment from 'Pages/Chat/component/comment-list/comment'
 import Home from 'Pages/Home'
 import Layout from 'Pages/Layout'
 import Load from 'Pages/Load'
@@ -11,7 +13,17 @@ import Welcome from 'Pages/Welcome'
 import { Route, Routes } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
 import useInit from './hooks'
-import { ROUTE_ROOT, ROUTE_HOME, ROUTE_LOGIN, ROUTE_REGISTER, ROUTE_USER_SPACE, ROUTE_USER_PROFILE, ROUTE_CHAT } from './path'
+import {
+  ROUTE_ROOT,
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_REGISTER,
+  ROUTE_USER_SPACE,
+  ROUTE_USER_PROFILE,
+  ROUTE_CHAT,
+  ROUTE_CHAT_FRIEND_LIST,
+  ROUTE_CHAT_COMMENT_LIST
+} from './path'
 
 const Router = () => {
   const { isLoading, init } = useInit()
@@ -36,7 +48,10 @@ const Router = () => {
           {UserProfileRouter}
         </Route>
         <Route path={ROUTE_CHAT} element={<Chat />}>
-          {ChatRouter}
+          <Route path={ROUTE_CHAT_COMMENT_LIST} element={<CommentList />}>
+            <Route path=":id" element={<Comment />} />
+          </Route>
+          <Route path={ROUTE_CHAT_FRIEND_LIST}></Route>
         </Route>
         <Route path="*" element={<NoFind />} />
       </Route>

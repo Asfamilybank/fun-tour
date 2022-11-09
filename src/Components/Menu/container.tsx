@@ -1,7 +1,7 @@
 import { IMenu, IMenuProps } from 'Components/types'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Menu from '.'
+import Menu from './temp'
 
 const Container = ({ menu, configs, children }: { menu?: IMenu; configs?: IMenuProps['configs']; children?: React.ReactNode }) => {
   return (
