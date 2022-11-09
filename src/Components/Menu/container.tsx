@@ -1,13 +1,13 @@
-import { IMenu } from 'Components/types'
+import { IMenu, IMenuProps } from 'Components/types'
+import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Menu from '.'
 
-const Container = ({ menu }: { menu: IMenu }) => {
+const Container = ({ menu, configs, children }: { menu?: IMenu; configs?: IMenuProps['configs']; children?: React.ReactNode }) => {
   return (
     <div className="rounded-box flex h-full space-x-4">
-      <>{menu}</>
-      <div className="bg-base-100 rounded-box grow p-4">
-        <Outlet />
-      </div>
+      <>{menu ? menu : configs && <Menu configs={configs} />}</>
+      <div className="bg-base-100 rounded-box grow p-4">{React.Children.count(children) > 0 ? children : <Outlet />}</div>
     </div>
   )
 }

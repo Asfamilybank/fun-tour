@@ -1,4 +1,4 @@
-import Chat from 'Pages/Chat'
+import Chat, { ChatRouter } from 'Pages/Chat'
 import Home from 'Pages/Home'
 import Layout from 'Pages/Layout'
 import Load from 'Pages/Load'
@@ -35,7 +35,9 @@ const Router = () => {
         <Route path={ROUTE_USER_PROFILE} element={<UserProfile />}>
           {UserProfileRouter}
         </Route>
-        <Route path={ROUTE_CHAT} element={<Chat />} />
+        <Route path={ROUTE_CHAT} element={<Chat />}>
+          {ChatRouter}
+        </Route>
         <Route path="*" element={<NoFind />} />
       </Route>
     </Routes>

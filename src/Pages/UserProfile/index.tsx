@@ -27,6 +27,8 @@ const configs = [
   }
 ]
 
+export const UserProfileRouter = configs.map((config) => <Route key={config.path} path={config.path} element={config.component} />)
+
 const UserProfile = () => {
   return (
     <div className="rounded-box flex h-full space-x-4">
@@ -37,7 +39,5 @@ const UserProfile = () => {
     </div>
   )
 }
-
-export const UserProfileRouter = configs.map((config) => <Route key={config.path} path={config.path} element={config.component} />)
 
 export default UserProfile

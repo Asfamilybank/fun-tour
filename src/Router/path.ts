@@ -3,7 +3,10 @@ export const ROUTE_HOME = ROUTE_ROOT + 'home'
 export const ROUTE_LOGIN = ROUTE_ROOT + 'login'
 export const ROUTE_REGISTER = ROUTE_ROOT + 'register'
 export const ROUTE_USER_SPACE = ROUTE_ROOT + 'user_space'
+
 export const ROUTE_CHAT = ROUTE_ROOT + 'chat'
+export const ROUTE_CHAT_MESSAGE = ROUTE_CHAT + '/message'
+export const ROUTE_CHAT_FRIEND_LIST = ROUTE_CHAT + '/friend_list'
 
 export const ROUTE_USER_PROFILE = ROUTE_ROOT + 'user_profile'
 export const ROUTE_USER_PROFILE_INFO = ROUTE_USER_PROFILE + '/info'
