@@ -50,7 +50,7 @@
 
 .letter-l {
   margin-top: 47px;
-  right: calc(50vw + 24px);
+  right: calc(50vw + 124px);
   position: fixed;
   text-align: center;
   font-size: 96px;
@@ -60,7 +60,7 @@
 .letter-a {
   margin-top: 158px;
   position: fixed;
-  left: calc(50vw + 20px);
+  left: calc(50vw + 120px);
   text-align: center;
   font-size: 96px;
   line-height: 96px;

@@ -20,22 +20,36 @@ const Welcome = () => {
       { frameStep: 1 }
     )
 
-    lax.addElements('.letter-x', {
-      scrollY: {
-        translateY: [
-          [-400, 0, 100],
-          [300, 0, 100]
-        ],
-        scale: [
-          [100, 'screenHeight'],
-          [0.25, 10]
-        ],
-        opacity: [
-          [0, 'screenHeight/2', 'screenHeight'],
-          [1, 1, 0]
-        ]
+    lax.addElements(
+      '.letter-x',
+      {
+        scrollY: {
+          translateY: [
+            [-400, 0, 100],
+            [300, 0, 100]
+          ],
+          scale: [
+            [100, 'screenHeight'],
+            [0.25, 10]
+          ],
+          opacity: [
+            [0, 100, 'screenHeight/2', 'screenHeight'],
+            [0.5, 1, 1, 0]
+          ]
+        }
+      },
+      {
+        onUpdate: (driverValues: { scrollY: number[] }, domElement: HTMLElement) => {
+          const scrollY = driverValues.scrollY[0]
+
+          if (scrollY >= 100) {
+            domElement.classList.add('text-primary')
+          } else {
+            domElement.classList.remove('text-primary')
+          }
+        }
       }
-    })
+    )
 
     lax.addElements('.letter-l', {
       scrollY: {
@@ -44,12 +58,12 @@ const Welcome = () => {
           [100, 0]
         ],
         translateX: [
-          [0, 'screenHeight'],
-          [0, 400]
+          [0, 100, 'screenHeight'],
+          [0, 100, 400]
         ],
         opacity: [
-          [0, 'screenHeight/2'],
-          [1, 0]
+          [0, 100, 'screenHeight/2'],
+          [0.5, 1, 0]
         ]
       }
     })
@@ -61,12 +75,12 @@ const Welcome = () => {
           [200, 0]
         ],
         translateX: [
-          [0, 'screenHeight'],
-          [0, -400]
+          [0, 100, 'screenHeight'],
+          [0, -100, -400]
         ],
         opacity: [
-          [0, 'screenHeight/2'],
-          [1, 0]
+          [0, 100, 'screenHeight/2'],
+          [0.5, 1, 0]
         ]
       }
     })
@@ -213,7 +227,7 @@ const Welcome = () => {
     <div className="welcome-container">
       <div className="letter-l">Fun</div>
       <div className="letter-a">Tour</div>
-      <div className="letter-x">
+      <div className="letter-x text-white">
         <IconLogo className="inline-block h-full w-full" />
       </div>
 
