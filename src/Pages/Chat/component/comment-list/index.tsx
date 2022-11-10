@@ -1,9 +1,16 @@
 import { friendApi } from 'Api'
+import Avatar from 'Components/Avatar'
 import { Outlet, useParams } from 'react-router-dom'
 import { useData } from 'Utils/hooks'
 
 const CommentListItem = () => {
-  return <div></div>
+  return (
+    <div>
+      <Avatar />
+      <div></div>
+      <div></div>
+    </div>
+  )
 }
 
 const CommentList = () => {
