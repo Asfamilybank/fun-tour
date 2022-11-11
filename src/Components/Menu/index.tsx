@@ -13,23 +13,25 @@ const Menu: IMenu = ({ defaultExpend = false, direction = 'vertical', configs })
 
   return (
     <ul
-      className={`menu bg-base-100 rounded-box shrink-0 self-start overflow-hidden shadow ${direction === 'horizontal' ? 'menu-horizontal' : 'menu-vertical'}`}
+      className={`menu bg-base-100 rounded-box shrink-0 self-start overflow-hidden rounded-b-none shadow ${
+        direction === 'horizontal' ? 'menu-horizontal' : 'menu-vertical'
+      }`}
     >
-      <div style={{ height: 'calc(var(--rounded-box) - 0.125rem)' }} />
-      <li className={`${isExpend ? 'my-0.5' : ''}`}>
+      {/* <div style={{ height: 'calc(var(--rounded-box) - 0.125rem)' }} /> */}
+      <li className={`${isExpend ? '' : ''}`}>
         <a className="pl-5" onClick={onToggleMenu}>
           <pre>{isExpend ? <IconMenu /> : <IconMenuLeft />}</pre>
         </a>
       </li>
       {configs.map((config) => (
-        <li key={config.path} className={`hover-bordered ${isExpend ? 'my-0.5' : ''}`} title={config.title}>
+        <li key={config.path} className={`hover-bordered ${isExpend ? 'mt-1' : ''}`} title={config.title}>
           <Link to={config.path} className={` ${pathname === config.path ? 'active' : ''}`}>
             <pre>{config.icon}</pre>
             {isExpend && config.title}
           </Link>
         </li>
       ))}
-      <div style={{ height: 'calc(var(--rounded-box) - 0.125rem)' }} />
+      {/* <div style={{ height: 'calc(var(--rounded-box) - 0.125rem)' }} /> */}
     </ul>
   )
 }

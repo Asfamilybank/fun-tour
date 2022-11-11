@@ -12,15 +12,16 @@ const INDICATOR_VERTICAL_MAP: IComponentVerticalMap = {
   bottom: 'indicator-bottom'
 }
 
-const Indicator: IIndicator = ({ items, children }) => {
+const Indicator: IIndicator = ({ horizontal = 'end', vertical = 'top', content, items, children }) => {
   return (
     <div className="indicator">
+      {content && <span className={`indicator-item h-fit ${INDICATOR_HORIZONTAL_MAP[horizontal]} ${INDICATOR_VERTICAL_MAP[vertical]}`}>{content}</span>}
       {items?.map((item, index) => (
         <span
           key={index}
           className={`indicator-item h-fit ${INDICATOR_HORIZONTAL_MAP[item.horizontal ?? 'end']} ${INDICATOR_VERTICAL_MAP[item.vertical ?? 'top']}`}
         >
-          {item.component}
+          {item.content}
         </span>
       ))}
       {children}

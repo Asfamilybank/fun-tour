@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', 'node_modules/daisyui/dist/**/*.js', 'node_modules/react-daisyui/dist/**/*.js'],
   important: 'body',
   darkMode: 'media',
   theme: {
@@ -44,6 +44,9 @@ module.exports = {
       zIndex: {
         navbar: 100,
         toast: 1000
+      },
+      spacing: {
+        'rounded-box': 'var(--rounded-box)'
       }
     },
     variants: {

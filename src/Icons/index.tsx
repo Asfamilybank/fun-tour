@@ -17,6 +17,7 @@ import IconMenuLeft from 'Assets/svg/menu-left.svg'
 import IconMenuRight from 'Assets/svg/menu-right.svg'
 import IconComment from 'Assets/svg/comment.svg'
 import IconUserList from 'Assets/svg/user-list.svg'
+import IconSearch from 'Assets/svg/search.svg'
 
 export {
   IconLogo,
@@ -37,5 +38,6 @@ export {
   IconMenuLeft,
   IconMenuRight,
   IconComment,
-  IconUserList
+  IconUserList,
+  IconSearch
 }

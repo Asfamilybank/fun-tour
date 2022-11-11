@@ -20,7 +20,7 @@ const Chat = () => {
   return (
     <div className="rounded-box flex h-full space-x-4">
       <Menu configs={configs} />
-      <div className="bg-base-100 rounded-box grow p-4">
+      <div className="bg-base-100 rounded-box grow">
         <Outlet />
       </div>
     </div>

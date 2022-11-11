@@ -49,13 +49,18 @@ export interface IRadioGroupProps {
 }
 export interface IRadioGroup extends IComponentWithChildren<IRadioGroupProps> {}
 
+// Badge
+
 // Indicator
 export interface IIndicatorItem {
   horizontal?: IComponentHorizontal
   vertical?: IComponentVertical
-  component?: React.ReactNode
+  content?: React.ReactNode
 }
 export interface IIndicatorProps {
+  horizontal?: IComponentHorizontal
+  vertical?: IComponentVertical
+  content?: React.ReactNode
   items?: IIndicatorItem[]
 }
 export interface IIndicator extends IComponentWithChildren<IIndicatorProps> {}

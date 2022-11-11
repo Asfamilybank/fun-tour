@@ -1,4 +1,5 @@
 import Button from 'Components/Button'
+import Indicator from 'Components/Indicator'
 import { IconComment } from 'Icons'
 import { Link } from 'react-router-dom'
 import { ROUTE_CHAT_COMMENT_LIST } from 'Router/path'
@@ -8,9 +9,11 @@ const Message = () => {
     <div className="dropdown dropdown-end">
       <Button tabIndex={0} shape="circle" className="btn-ghost">
         <div className="indicator">
-          <span className="indicator-item indicator-middle indicator-end h-fit">8</span>
-          <IconComment />
+          <span className="indicator-item indicator-middle indicator-end h-fit"></span>
         </div>
+        <Indicator content={<span className="badge badge-sm">8</span>}>
+          <IconComment />
+        </Indicator>
       </Button>
       <div tabIndex={0} className="card card-compact dropdown-content bg-base-100 mt-3 w-52 shadow-sm">
         <div className="card-body">
