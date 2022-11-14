@@ -29,16 +29,28 @@ const CommentListItem = () => {
 
 const CommentList = () => {
   const { id } = useParams()
-  const { rws } = useReconnectingWebSocket()
+  const userInfo = useRecoilValue(userInfoState)
+  const { rws, send } = useReconnectingWebSocket({
+    open(event) {
+      send({
+        flag: 'SYSTEM',
+        sender: { userId: userInfo?.userId },
+        receiver: {},
+        message: 'token'
+      })
+    }
+  })
 
   useEffect(() => {
-    rws.addEventListener('message', (event) => {
-      console.log(event)
-      rws.send('123')
+    rws.current?.addEventListener('message', () => {
+      send({
+        flag: 'SYSTEM',
+        sender: { userId: userInfo?.userId },
+        receiver: { userId: id },
+        message: ''
+      })
     })
   }, [])
-
-  console.log(id)
 
   return (
     <div className="flex h-full w-full">
