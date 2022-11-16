@@ -27,6 +27,7 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'tailwindcss'],
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { destructuredArrayIgnorePattern: '^_' }],
     '@typescript-eslint/no-empty-interface': 'off',

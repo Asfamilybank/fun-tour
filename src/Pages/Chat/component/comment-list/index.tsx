@@ -31,7 +31,7 @@ const CommentList = () => {
   const { id } = useParams()
   const userInfo = useRecoilValue(userInfoState)
   const { rws, send } = useReconnectingWebSocket({
-    open(event) {
+    open() {
       send({
         flag: 'SYSTEM',
         sender: { userId: userInfo?.userId },
